@@ -104,7 +104,7 @@ export default function SayLessPage() {
   const [bonusPhase, setBonusPhase] = useState(false);
   const [bonusScore, setBonusScore] = useState(0);
 
-  // Poster URLs per round (fetched from iTunes)
+  // Poster URLs per round (fetched from Wikipedia)
   const [posterUrls, setPosterUrls] = useState<(string | null)[]>(
     () => new Array(TOTAL_ROUNDS).fill(null)
   );
