@@ -11,29 +11,37 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const apiKey = process.env.TMDB_API_KEY;
-
-  if (!apiKey) {
-    // No TMDB key configured — return null poster gracefully
-    return NextResponse.json({ posterUrl: null });
-  }
-
   try {
+    // Use iTunes Search API — free, no API key required
+    const searchTerm = year ? `${title} ${year}` : title;
     const params = new URLSearchParams({
-      api_key: apiKey,
-      query: title,
-      ...(year ? { year } : {}),
+      term: searchTerm,
+      media: "movie",
+      entity: "movie",
+      limit: "5",
     });
 
     const res = await fetch(
-      `https://api.themoviedb.org/3/search/movie?${params}`
+      `https://itunes.apple.com/search?${params}`
     );
     const data = await res.json();
 
-    if (data.results?.[0]?.poster_path) {
-      return NextResponse.json({
-        posterUrl: `https://image.tmdb.org/t/p/w500${data.results[0].poster_path}`,
-      });
+    if (data.results?.length > 0) {
+      // Find the best match by comparing titles
+      const titleLower = title.toLowerCase();
+      const match = data.results.find(
+        (r: { trackName?: string }) =>
+          r.trackName?.toLowerCase() === titleLower
+      ) || data.results[0];
+
+      if (match.artworkUrl100) {
+        // Upscale artwork from 100x100 to 600x600
+        const posterUrl = match.artworkUrl100.replace(
+          "100x100bb",
+          "600x600bb"
+        );
+        return NextResponse.json({ posterUrl });
+      }
     }
 
     return NextResponse.json({ posterUrl: null });
