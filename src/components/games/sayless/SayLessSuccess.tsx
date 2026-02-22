@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Film, PartyPopper } from "lucide-react";
 import Button from "@/components/shared/Button";
@@ -21,33 +20,7 @@ export default function SayLessSuccess({
   posterUrl,
   onContinue,
 }: SayLessSuccessProps) {
-  // Speak the full quote on mount
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.speechSynthesis) return;
-
-    const utterance = new SpeechSynthesisUtterance(quote);
-    utterance.rate = 0.9;
-    utterance.pitch = 0.95;
-
-    const voices = window.speechSynthesis.getVoices();
-    const preferred = voices.find(
-      (v) => v.lang.startsWith("en") && v.name.includes("Daniel")
-    ) || voices.find(
-      (v) => v.lang.startsWith("en-US")
-    ) || voices.find(
-      (v) => v.lang.startsWith("en")
-    );
-    if (preferred) utterance.voice = preferred;
-
-    window.speechSynthesis.speak(utterance);
-
-    return () => {
-      window.speechSynthesis.cancel();
-    };
-  }, [quote]);
-
   const handleContinue = () => {
-    window.speechSynthesis?.cancel();
     onContinue();
   };
 
@@ -104,29 +77,6 @@ export default function SayLessSuccess({
               </div>
             )}
 
-            {/* Speaking indicator overlay */}
-            <div className="absolute bottom-2 right-2 flex items-center gap-1 bg-deep/80 backdrop-blur-sm rounded-full px-2.5 py-1">
-              <div className="flex items-end gap-[2px] h-3">
-                {[0, 1, 2, 3].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-[3px] bg-accent rounded-full"
-                    animate={{
-                      height: ["4px", "12px", "6px", "10px", "4px"],
-                    }}
-                    transition={{
-                      duration: 0.8,
-                      repeat: Infinity,
-                      delay: i * 0.15,
-                      ease: "easeInOut",
-                    }}
-                  />
-                ))}
-              </div>
-              <span className="text-[10px] text-accent font-medium ml-0.5">
-                Playing
-              </span>
-            </div>
           </motion.div>
 
           {/* Movie info */}
