@@ -1,0 +1,122 @@
+"use client";
+import { useState, useEffect, useMemo } from "react";
+import { motion } from "framer-motion";
+import CluelessInput from "@/components/games/clueless/CluelessInput";
+import SimilarityMeter from "@/components/games/clueless/SimilarityMeter";
+import CluelessHistory from "@/components/games/clueless/CluelessHistory";
+import GameNav from "@/components/layout/GameNav";
+import ShareButton from "@/components/shared/ShareButton";
+import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
+import CountdownTimer from "@/components/shared/CountdownTimer";
+import { useGame } from "@/hooks/useGame";
+import { useGauntletContext } from "@/context/GauntletContext";
+import type { CluelessGuess } from "@/types";
+import CLUELESS_DATA from "@/data/clueless-words.json";
+
+interface CluelessWord {
+  word: string;
+  similar: Record<string, number>;
+}
+
+function getDailyWord(words: CluelessWord[], date: string): CluelessWord {
+  let hash = 0;
+  for (let i = 0; i < date.length; i++) {
+    hash = ((hash << 5) - hash) + date.charCodeAt(i);
+    hash |= 0;
+  }
+  return words[Math.abs(hash) % words.length];
+}
+
+function getSimilarity(guess: string, dailyWord: CluelessWord): number {
+  const lower = guess.toLowerCase();
+  if (lower === dailyWord.word.toLowerCase()) return 100;
+  if (dailyWord.similar[lower] !== undefined) return dailyWord.similar[lower];
+  // Generate a deterministic low score for unknown words
+  let hash = 0;
+  for (let i = 0; i < lower.length; i++) {
+    hash = ((hash << 5) - hash) + lower.charCodeAt(i);
+    hash |= 0;
+  }
+  return (Math.abs(hash) % 20) + 1;
+}
+
+export default function CluelessPage() {
+  const today = new Date().toISOString().split("T")[0];
+  const dailyWord = useMemo(
+    () => getDailyWord(CLUELESS_DATA as unknown as CluelessWord[], today),
+    [today]
+  );
+  const { startGame, completeGame } = useGame();
+  const { isGauntlet } = useGauntletContext();
+
+  const [guesses, setGuesses] = useState<CluelessGuess[]>([]);
+  const [latestSimilarity, setLatestSimilarity] = useState<number | null>(null);
+  const [gameOver, setGameOver] = useState(false);
+  const [won, setWon] = useState(false);
+
+  useEffect(() => {
+    startGame("clueless");
+  }, []);
+
+  const handleGuess = (word: string) => {
+    if (gameOver) return;
+    if (guesses.some((g) => g.word.toLowerCase() === word.toLowerCase())) return;
+
+    const similarity = getSimilarity(word, dailyWord);
+    const newGuess: CluelessGuess = { word, similarity };
+    const newGuesses = [...guesses, newGuess];
+    setGuesses(newGuesses);
+    setLatestSimilarity(similarity);
+
+    if (similarity === 100) {
+      setWon(true);
+      setGameOver(true);
+      completeGame("clueless", "win", newGuesses.length);
+    }
+  };
+
+  const shareText = `\u{1F50D} GAUNTLET \u2014 Clueless\n${won ? `Found it in ${guesses.length} guesses!` : "Still searching..."}\n\nPlay at gauntlet.gg`;
+
+  return (
+    <div className="pt-6 pb-4">
+      {!isGauntlet && <GameNav />}
+      {!isGauntlet && <ConfettiExplosion trigger={won} />}
+
+      <div className="text-center mb-6">
+        <h2 className="font-display text-4xl lg:text-5xl font-bold mb-1">Clueless</h2>
+        <p className="text-muted text-sm">Find the secret word by semantic similarity</p>
+      </div>
+
+      <div className="glass-card p-4 mb-4 text-center">
+        <span className="text-muted text-sm">Guesses: </span>
+        <span className="font-display font-bold text-accent">{guesses.length}</span>
+      </div>
+
+      {latestSimilarity !== null && <SimilarityMeter similarity={latestSimilarity} />}
+
+      <CluelessInput onGuess={handleGuess} disabled={gameOver} />
+
+      <CluelessHistory guesses={guesses} targetWord={won ? dailyWord.word : undefined} />
+
+      {gameOver && !isGauntlet && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-6 text-center space-y-4"
+        >
+          <h3 className="font-display text-xl font-bold text-success">
+            You found it!
+          </h3>
+          <p className="text-muted">
+            The word was <span className="text-accent font-bold">{dailyWord.word}</span>
+          </p>
+          <p className="text-sm text-muted">
+            Solved in {guesses.length} guess{guesses.length !== 1 ? "es" : ""}
+          </p>
+          <ShareButton text={shareText} />
+          <CountdownTimer />
+        </motion.div>
+      )}
+    </div>
+  );
+}
