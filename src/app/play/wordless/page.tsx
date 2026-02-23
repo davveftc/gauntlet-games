@@ -9,7 +9,9 @@ import ShareButton from "@/components/shared/ShareButton";
 import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
+import { useAlreadyPlayed } from "@/hooks/useAlreadyPlayed";
 import { useGauntletContext } from "@/context/GauntletContext";
+import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import { generateWordlessShareText } from "@/lib/utils";
 import type { WordlessTileData, TileState } from "@/types";
 import WORDS from "@/data/wordless-words.json";
@@ -60,6 +62,7 @@ export default function WordlessPage() {
   const targetWord = getDailyWord(WORDS, today);
   const { startGame, completeGame, result } = useGame();
   const { isGauntlet } = useGauntletContext();
+  const { completedState, loading: alreadyPlayedLoading } = useAlreadyPlayed("wordless");
 
   const [board, setBoard] = useState<WordlessTileData[][]>(createEmptyBoard());
   const [currentRow, setCurrentRow] = useState(0);
@@ -181,6 +184,14 @@ export default function WordlessPage() {
   const puzzleNumber = Math.abs(
     today.split("").reduce((acc, c) => ((acc << 5) - acc + c.charCodeAt(0)) | 0, 0) % 9999
   );
+
+  if (alreadyPlayedLoading) {
+    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+  }
+
+  if (completedState && !isGauntlet) {
+    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Wordless" state={completedState} /></div>;
+  }
 
   return (
     <div className="pt-6 pb-4">

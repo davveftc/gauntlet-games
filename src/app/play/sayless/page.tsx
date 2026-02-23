@@ -13,8 +13,10 @@ import ShareButton from "@/components/shared/ShareButton";
 import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
+import { useAlreadyPlayed } from "@/hooks/useAlreadyPlayed";
 import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
+import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { MovieQuote } from "@/types";
 import MOVIES from "@/data/sayless-movies.json";
 
@@ -98,6 +100,7 @@ export default function SayLessPage() {
   const { isGauntlet } = useGauntletContext();
   const { isChain } = useChainContext();
   const isSpecialMode = isGauntlet || isChain;
+  const { completedState, loading: alreadyPlayedLoading } = useAlreadyPlayed("sayless");
 
   const [activeTab, setActiveTab] = useState(0);
   const [roundStates, setRoundStates] = useState<RoundState[]>(createInitialRoundStates);
@@ -254,6 +257,14 @@ export default function SayLessPage() {
   }, [rounds]);
 
   // ---------- render ----------
+  if (alreadyPlayedLoading) {
+    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+  }
+
+  if (completedState && !isSpecialMode) {
+    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Say Less" state={completedState} /></div>;
+  }
+
   return (
     <div className="flex flex-col pt-4 pb-2 min-h-[calc(100dvh-5rem)]">
       {!isSpecialMode && <GameNav />}

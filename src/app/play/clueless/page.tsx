@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
 import CluelessInput from "@/components/games/clueless/CluelessInput";
 import SimilarityMeter from "@/components/games/clueless/SimilarityMeter";
@@ -9,8 +9,10 @@ import ShareButton from "@/components/shared/ShareButton";
 import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
+import { useAlreadyPlayed } from "@/hooks/useAlreadyPlayed";
 import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
+import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { CluelessGuess } from "@/types";
 import CLUELESS_DATA from "@/data/clueless-words.json";
 
@@ -51,19 +53,48 @@ export default function CluelessPage() {
   const { isGauntlet } = useGauntletContext();
   const { isChain } = useChainContext();
   const isSpecialMode = isGauntlet || isChain;
+  const { completedState, loading: alreadyPlayedLoading } = useAlreadyPlayed("clueless");
 
   const [guesses, setGuesses] = useState<CluelessGuess[]>([]);
   const [latestSimilarity, setLatestSimilarity] = useState<number | null>(null);
   const [gameOver, setGameOver] = useState(false);
   const [won, setWon] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const errorTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     startGame("clueless");
   }, []);
 
-  const handleGuess = (word: string) => {
+  const showError = useCallback((msg: string) => {
+    if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+    setError(msg);
+    errorTimerRef.current = setTimeout(() => setError(null), 3000);
+  }, []);
+
+  const handleGuess = useCallback(async (word: string) => {
     if (gameOver) return;
-    if (guesses.some((g) => g.word.toLowerCase() === word.toLowerCase())) return;
+    setError(null);
+
+    if (guesses.some((g) => g.word.toLowerCase() === word.toLowerCase())) {
+      showError(`"${word}" has already been guessed`);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/validate-word", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ word }),
+      });
+      const { valid } = await res.json();
+      if (!valid) {
+        showError(`"${word}" is not a valid word`);
+        return;
+      }
+    } catch {
+      // If validation fails due to network, allow the guess through
+    }
 
     const similarity = getSimilarity(word, dailyWord);
     const newGuess: CluelessGuess = { word, similarity };
@@ -76,9 +107,17 @@ export default function CluelessPage() {
       setGameOver(true);
       completeGame("clueless", "win", newGuesses.length);
     }
-  };
+  }, [gameOver, guesses, dailyWord, completeGame, showError]);
 
   const shareText = `\u{1F50D} GAUNTLET \u2014 Clueless\n${won ? `Found it in ${guesses.length} guesses!` : "Still searching..."}\n\nPlay at gauntlet.gg`;
+
+  if (alreadyPlayedLoading) {
+    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+  }
+
+  if (completedState && !isSpecialMode) {
+    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Clueless" state={completedState} /></div>;
+  }
 
   return (
     <div className="pt-6 pb-4">
@@ -97,7 +136,7 @@ export default function CluelessPage() {
 
       {latestSimilarity !== null && <SimilarityMeter similarity={latestSimilarity} />}
 
-      <CluelessInput onGuess={handleGuess} disabled={gameOver} />
+      <CluelessInput onGuess={handleGuess} disabled={gameOver} error={error} />
 
       <CluelessHistory guesses={guesses} targetWord={won ? dailyWord.word : undefined} />
 
