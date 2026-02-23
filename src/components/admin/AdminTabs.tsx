@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 
-export type AdminTab = "overview" | "users" | "games" | "content";
+export type AdminTab = "overview" | "users" | "games" | "content" | "admins";
 
 interface AdminTabsProps {
   active: AdminTab;
@@ -13,6 +13,7 @@ const TABS: { label: string; value: AdminTab }[] = [
   { label: "Users", value: "users" },
   { label: "Games", value: "games" },
   { label: "Content", value: "content" },
+  { label: "Admins", value: "admins" },
 ];
 
 export default function AdminTabs({ active, onChange }: AdminTabsProps) {

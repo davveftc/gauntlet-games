@@ -125,6 +125,20 @@ create table if not exists notifications (
   created_at timestamptz not null default now()
 );
 
+-- ============ ADMIN EMAILS ============
+create table if not exists admin_emails (
+  email text primary key,
+  added_at timestamptz not null default now(),
+  added_by text
+);
+
+-- Seed initial admin emails
+insert into admin_emails (email, added_by) values
+  ('admin@gauntlet.gg', 'system'),
+  ('davve@gauntlet.gg', 'system'),
+  ('dasiegbunam@yahoo.com', 'system')
+on conflict do nothing;
+
 -- ============ INDEXES ============
 create index if not exists idx_streaks_uid on streaks(uid);
 create index if not exists idx_game_history_uid_date on game_history(uid, date);
@@ -228,3 +242,12 @@ create policy "Authenticated users can insert notifications" on notifications
   for insert with check (true);
 create policy "Users can update own notifications" on notifications
   for update using (auth.uid() = uid);
+
+-- ============ RLS: ADMIN EMAILS ============
+alter table admin_emails enable row level security;
+create policy "Authenticated users can read admin list" on admin_emails
+  for select using (auth.uid() is not null);
+create policy "Authenticated users can insert admin list" on admin_emails
+  for insert with check (auth.uid() is not null);
+create policy "Authenticated users can delete from admin list" on admin_emails
+  for delete using (auth.uid() is not null);
