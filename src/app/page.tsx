@@ -67,8 +67,10 @@ export default function HomePage() {
   return (
     <div className="pt-6">
       <TopBar />
-      <GauntletBanner />
-      <ChainBanner />
+      <div className="grid grid-cols-2 gap-3">
+        <GauntletBanner />
+        <ChainBanner />
+      </div>
       <DailyStatus history={history} />
       <GameGrid games={GAMES} history={history} />
     </div>
