@@ -49,8 +49,8 @@ export async function createUserProfile(uid: string, userData: Partial<User>) {
   });
 
   // Initialize streaks for all game types
-  const gameIds: (GameId | "global" | "gauntlet")[] = [
-    "wordless", "songless", "moreless", "clueless", "spellingbee", "faceless", "global", "gauntlet",
+  const gameIds: (GameId | "global" | "gauntlet" | "chain")[] = [
+    "wordless", "songless", "moreless", "clueless", "spellingbee", "faceless", "global", "gauntlet", "chain",
   ];
   const streakRows = gameIds.map((gameId) => ({
     uid,
@@ -142,7 +142,7 @@ export async function addXP(uid: string, amount: number) {
     .eq("uid", uid);
 }
 
-export async function updateStreak(uid: string, gameId: GameId | "global" | "gauntlet") {
+export async function updateStreak(uid: string, gameId: GameId | "global" | "gauntlet" | "chain") {
   const today = todayStr();
   const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
 

@@ -41,6 +41,26 @@ export function generateGauntletShareText(
   return `${swords} GAUNTLET \u2014 ${survived ? "SURVIVED" : "ELIMINATED"}\n${bars}\n${completedCount}/${total} games cleared${pointsStr}\n\nPlay at gauntlet.gg`;
 }
 
+export function generateChainShareText(
+  survived: boolean,
+  totalLinks: number,
+  totalScore: number,
+  links: { gameId: string; result: string; displayName: string }[]
+): string {
+  const icon = survived ? "\u{1F517}" : "\u26D3\uFE0F";
+  const bars = links
+    .map((l) => (l.result === "win" ? "\u2705" : l.result === "loss" ? "\u274C" : "\u2B1C"))
+    .join("");
+
+  const completedCount = links.filter((l) => l.result === "win").length;
+
+  if (survived) {
+    return `${icon} THE CHAIN \u2014 ALL LINKS HELD!\n${bars}\nTotal Score: ${totalScore} (4\u00D7 multiplier)\n\nPlay at gauntlet.gg`;
+  }
+
+  return `${icon} THE CHAIN \u2014 BROKEN\n${bars}\nChain broke at link ${completedCount + 1}/${totalLinks}\n\nPlay at gauntlet.gg`;
+}
+
 export async function copyToClipboard(text: string): Promise<boolean> {
   try {
     await navigator.clipboard.writeText(text);

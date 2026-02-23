@@ -23,6 +23,7 @@ const defaultStreaks: UserStreaks = {
   faceless: { current: 0, longest: 0, lastPlayedDate: "" },
   global: { current: 0, longest: 0, lastPlayedDate: "" },
   gauntlet: { current: 0, longest: 0, lastPlayedDate: "" },
+  chain: { current: 0, longest: 0, lastPlayedDate: "" },
 };
 
 export const useProfileStore = create<ProfileState>((set) => ({

@@ -14,6 +14,7 @@ import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
 import { useGauntletContext } from "@/context/GauntletContext";
+import { useChainContext } from "@/context/ChainContext";
 import type { MovieQuote } from "@/types";
 import MOVIES from "@/data/sayless-movies.json";
 
@@ -95,6 +96,8 @@ export default function SayLessPage() {
   const rounds = useMemo(() => getDailyRounds(MOVIES as MovieQuote[], today), [today]);
   const { startGame, completeGame } = useGame();
   const { isGauntlet } = useGauntletContext();
+  const { isChain } = useChainContext();
+  const isSpecialMode = isGauntlet || isChain;
 
   const [activeTab, setActiveTab] = useState(0);
   const [roundStates, setRoundStates] = useState<RoundState[]>(createInitialRoundStates);
@@ -154,7 +157,7 @@ export default function SayLessPage() {
     if (gameOver || bonusPhase) return;
 
     // In gauntlet mode, any failed round = instant loss
-    if (isGauntlet) {
+    if (isSpecialMode) {
       const failedRound = roundStates.find((r) => r.completed && !r.won);
       if (failedRound) {
         setGameOver(true);
@@ -174,7 +177,7 @@ export default function SayLessPage() {
     if (roundStates.every((r) => r.completed)) {
       setBonusPhase(true);
     }
-  }, [roundStates, gameOver, bonusPhase, completeGame, isGauntlet]);
+  }, [roundStates, gameOver, bonusPhase, completeGame, isSpecialMode]);
 
   const advanceToNextIncomplete = (updatedStates: RoundState[]) => {
     const nextIdx = updatedStates.findIndex((r, i) => !r.completed && i !== activeTab);
@@ -253,8 +256,8 @@ export default function SayLessPage() {
   // ---------- render ----------
   return (
     <div className="flex flex-col pt-4 pb-2 min-h-[calc(100dvh-5rem)]">
-      {!isGauntlet && <GameNav />}
-      {!isGauntlet && <ConfettiExplosion trigger={gameOver && totalCorrect === TOTAL_ROUNDS} />}
+      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalCorrect === TOTAL_ROUNDS} />}
 
       {/* ---- Header ---- */}
       <h2 className="font-display text-4xl lg:text-5xl font-bold text-center mb-6">Say Less</h2>
@@ -420,7 +423,7 @@ export default function SayLessPage() {
       )}
 
       {/* ---- Game over summary ---- */}
-      {gameOver && !isGauntlet && (
+      {gameOver && !isSpecialMode && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
