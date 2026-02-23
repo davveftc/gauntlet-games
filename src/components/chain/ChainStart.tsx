@@ -6,9 +6,10 @@ import Button from "@/components/shared/Button";
 interface ChainStartProps {
   onStart: () => void;
   loading?: boolean;
+  error?: string | null;
 }
 
-export default function ChainStart({ onStart, loading }: ChainStartProps) {
+export default function ChainStart({ onStart, loading, error }: ChainStartProps) {
   return (
     <div className="pt-6 flex flex-col items-center justify-center min-h-[80vh] text-center">
       <motion.div
@@ -44,6 +45,10 @@ export default function ChainStart({ onStart, loading }: ChainStartProps) {
           One chain per day. Choose your links wisely.
         </p>
       </div>
+
+      {error && (
+        <p className="text-error text-sm mb-3">{error}</p>
+      )}
 
       <Button
         variant="secondary"
