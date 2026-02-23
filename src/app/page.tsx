@@ -60,7 +60,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (user) {
-      getDailyHistory(user.uid).then(setHistory);
+      getDailyHistory(user.uid).then(setHistory).catch(() => setHistory(null));
     }
   }, [user]);
 
