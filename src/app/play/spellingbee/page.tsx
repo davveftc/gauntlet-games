@@ -9,8 +9,10 @@ import ShareButton from "@/components/shared/ShareButton";
 import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
+import { useAlreadyPlayed } from "@/hooks/useAlreadyPlayed";
 import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
+import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import SPELLING_DATA from "@/data/spellingbee-words.json";
 
 interface SpellingWord {
@@ -46,6 +48,7 @@ export default function SpellingBeePage() {
   const { isGauntlet } = useGauntletContext();
   const { isChain } = useChainContext();
   const isSpecialMode = isGauntlet || isChain;
+  const { completedState, loading: alreadyPlayedLoading } = useAlreadyPlayed("spellingbee");
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [results, setResults] = useState<("correct" | "incorrect" | "pending")[]>([]);
@@ -94,6 +97,14 @@ export default function SpellingBeePage() {
     : "";
 
   const shareText = `\u{1F41D} GAUNTLET \u2014 Spelling Bee\nScore: ${score}/${WORDS_PER_GAME}\n${results.map((r) => (r === "correct" ? "\u2705" : "\u274C")).join("")}\n\nPlay at gauntlet.gg`;
+
+  if (alreadyPlayedLoading) {
+    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+  }
+
+  if (completedState && !isSpecialMode) {
+    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Spelling Bee" state={completedState} /></div>;
+  }
 
   return (
     <div className="pt-6 pb-4">

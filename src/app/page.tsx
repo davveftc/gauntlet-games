@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
+import { getDailyHistory } from "@/lib/db";
 import GameGrid from "@/components/home/GameGrid";
 import GauntletBanner from "@/components/home/GauntletBanner";
 import ChainBanner from "@/components/home/ChainBanner";
@@ -59,8 +60,7 @@ export default function HomePage() {
 
   useEffect(() => {
     if (user) {
-      // In production, fetch from Firestore
-      // getDailyHistory(user.uid).then(setHistory);
+      getDailyHistory(user.uid).then(setHistory);
     }
   }, [user]);
 

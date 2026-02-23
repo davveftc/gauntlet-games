@@ -6,7 +6,7 @@ interface DailyStatusProps {
   history: DailyHistory | null;
 }
 
-const GAME_IDS: GameId[] = ["wordless", "songless", "moreless", "clueless", "spellingbee"];
+const GAME_IDS: GameId[] = ["wordless", "songless", "sayless", "moreless", "clueless", "spellingbee", "faceless"];
 
 export default function DailyStatus({ history }: DailyStatusProps) {
   const timeLeft = useCountdown();
@@ -19,7 +19,7 @@ export default function DailyStatus({ history }: DailyStatusProps) {
       <div className="flex items-center gap-2">
         <span className="text-sm text-muted">Today:</span>
         <span className="font-display font-bold text-accent">
-          {completedCount}/5
+          {completedCount}/{GAME_IDS.length}
         </span>
         <span className="text-sm text-muted">completed</span>
       </div>

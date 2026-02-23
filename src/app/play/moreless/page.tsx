@@ -8,8 +8,10 @@ import ShareButton from "@/components/shared/ShareButton";
 import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
+import { useAlreadyPlayed } from "@/hooks/useAlreadyPlayed";
 import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
+import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { MoreLessPair, MoreLessItem } from "@/types";
 import PAIRS_DATA from "@/data/moreless-pairs.json";
 
@@ -128,6 +130,7 @@ export default function MoreLessPage() {
   const { isGauntlet } = useGauntletContext();
   const { isChain } = useChainContext();
   const isSpecialMode = isGauntlet || isChain;
+  const { completedState, loading: alreadyPlayedLoading } = useAlreadyPlayed("moreless");
 
   const [activeTab, setActiveTab] = useState(0);
   const [tabStates, setTabStates] = useState<TabState[]>(
@@ -261,6 +264,14 @@ export default function MoreLessPage() {
   ).join("\n")}\n\nPlay at gauntlet.gg`;
 
   /* ================================================================ */
+  if (alreadyPlayedLoading) {
+    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+  }
+
+  if (completedState && !isSpecialMode) {
+    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="More / Less" state={completedState} /></div>;
+  }
+
   return (
     <div className="flex flex-col pt-4 pb-2 min-h-[calc(100dvh-5rem)]">
       {!isSpecialMode && <GameNav />}

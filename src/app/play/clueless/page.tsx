@@ -9,8 +9,10 @@ import ShareButton from "@/components/shared/ShareButton";
 import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
+import { useAlreadyPlayed } from "@/hooks/useAlreadyPlayed";
 import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
+import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { CluelessGuess } from "@/types";
 import CLUELESS_DATA from "@/data/clueless-words.json";
 
@@ -51,6 +53,7 @@ export default function CluelessPage() {
   const { isGauntlet } = useGauntletContext();
   const { isChain } = useChainContext();
   const isSpecialMode = isGauntlet || isChain;
+  const { completedState, loading: alreadyPlayedLoading } = useAlreadyPlayed("clueless");
 
   const [guesses, setGuesses] = useState<CluelessGuess[]>([]);
   const [latestSimilarity, setLatestSimilarity] = useState<number | null>(null);
@@ -79,6 +82,14 @@ export default function CluelessPage() {
   };
 
   const shareText = `\u{1F50D} GAUNTLET \u2014 Clueless\n${won ? `Found it in ${guesses.length} guesses!` : "Still searching..."}\n\nPlay at gauntlet.gg`;
+
+  if (alreadyPlayedLoading) {
+    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+  }
+
+  if (completedState && !isSpecialMode) {
+    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Clueless" state={completedState} /></div>;
+  }
 
   return (
     <div className="pt-6 pb-4">
