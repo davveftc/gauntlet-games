@@ -13,6 +13,7 @@ import type { AdminTab } from "@/components/admin/AdminTabs";
 const ADMIN_EMAILS = [
   "admin@gauntlet.gg",
   "davve@gauntlet.gg",
+  "dasiegbunam@yahoo.com",
 ];
 
 function isAdmin(email: string | null): boolean {
