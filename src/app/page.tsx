@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import GameGrid from "@/components/home/GameGrid";
 import GauntletBanner from "@/components/home/GauntletBanner";
+import ChainBanner from "@/components/home/ChainBanner";
 import DailyStatus from "@/components/home/DailyStatus";
 import TopBar from "@/components/layout/TopBar";
 import type { DailyHistory, GameId } from "@/types";
@@ -67,6 +68,7 @@ export default function HomePage() {
     <div className="pt-6">
       <TopBar />
       <GauntletBanner />
+      <ChainBanner />
       <DailyStatus history={history} />
       <GameGrid games={GAMES} history={history} />
     </div>

@@ -11,6 +11,7 @@ import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
 import { useGauntletContext } from "@/context/GauntletContext";
+import { useChainContext } from "@/context/ChainContext";
 import type { FacelessCelebrity } from "@/types";
 import CELEBS_DATA from "@/data/faceless-celebrities.json";
 
@@ -192,6 +193,8 @@ export default function FacelessPage() {
   );
   const { startGame, completeGame } = useGame();
   const { isGauntlet } = useGauntletContext();
+  const { isChain } = useChainContext();
+  const isSpecialMode = isGauntlet || isChain;
 
   const allCelebNames = useMemo(
     () => (CELEBS_DATA as FacelessCelebrity[]).map((c) => c.name),
@@ -223,7 +226,7 @@ export default function FacelessPage() {
     if (gameOver) return;
 
     // In gauntlet mode, any failed round = instant loss
-    if (isGauntlet) {
+    if (isSpecialMode) {
       const failedRound = roundStates.find((r) => r.completed && !r.won);
       if (failedRound) {
         setGameOver(true);
@@ -244,7 +247,7 @@ export default function FacelessPage() {
       setGameOver(true);
       completeGame("faceless", score === MAX_SCORE ? "win" : "loss", score);
     }
-  }, [roundStates, gameOver, completeGame, isGauntlet]);
+  }, [roundStates, gameOver, completeGame, isSpecialMode]);
 
   /* ---- handlers ---- */
   const handleGuess = (name: string) => {
@@ -334,8 +337,8 @@ export default function FacelessPage() {
   /* ================================================================ */
   return (
     <div className="flex flex-col pt-4 pb-2 min-h-[calc(100dvh-5rem)]">
-      {!isGauntlet && <GameNav />}
-      {!isGauntlet && <ConfettiExplosion trigger={gameOver && totalScore === MAX_SCORE} />}
+      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalScore === MAX_SCORE} />}
 
       <h2 className="font-display text-4xl lg:text-5xl font-bold text-center mb-6">
         Faceless
@@ -528,7 +531,7 @@ export default function FacelessPage() {
       )}
 
       {/* ---- Game over summary ---- */}
-      {gameOver && !isGauntlet && (
+      {gameOver && !isSpecialMode && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

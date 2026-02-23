@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Swords, Trophy, User } from "lucide-react";
+import { Home, Swords, Link2, Trophy, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const tabs = [
   { href: "/", icon: Home, label: "Home" },
   { href: "/gauntlet", icon: Swords, label: "Gauntlet" },
+  { href: "/chain", icon: Link2, label: "Chain" },
   { href: "/leaderboard", icon: Trophy, label: "Ranks" },
   { href: "/profile", icon: User, label: "Profile" },
 ];

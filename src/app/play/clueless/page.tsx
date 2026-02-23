@@ -10,6 +10,7 @@ import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
 import { useGauntletContext } from "@/context/GauntletContext";
+import { useChainContext } from "@/context/ChainContext";
 import type { CluelessGuess } from "@/types";
 import CLUELESS_DATA from "@/data/clueless-words.json";
 
@@ -48,6 +49,8 @@ export default function CluelessPage() {
   );
   const { startGame, completeGame } = useGame();
   const { isGauntlet } = useGauntletContext();
+  const { isChain } = useChainContext();
+  const isSpecialMode = isGauntlet || isChain;
 
   const [guesses, setGuesses] = useState<CluelessGuess[]>([]);
   const [latestSimilarity, setLatestSimilarity] = useState<number | null>(null);
@@ -79,8 +82,8 @@ export default function CluelessPage() {
 
   return (
     <div className="pt-6 pb-4">
-      {!isGauntlet && <GameNav />}
-      {!isGauntlet && <ConfettiExplosion trigger={won} />}
+      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <ConfettiExplosion trigger={won} />}
 
       <div className="text-center mb-6">
         <h2 className="font-display text-4xl lg:text-5xl font-bold mb-1">Clueless</h2>
@@ -98,7 +101,7 @@ export default function CluelessPage() {
 
       <CluelessHistory guesses={guesses} targetWord={won ? dailyWord.word : undefined} />
 
-      {gameOver && !isGauntlet && (
+      {gameOver && !isSpecialMode && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

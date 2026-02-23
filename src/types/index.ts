@@ -107,6 +107,7 @@ export interface UserStreaks {
   faceless: StreakData;
   global: StreakData;
   gauntlet: StreakData;
+  chain: StreakData;
 }
 
 // ============ PROFILE ============
@@ -141,6 +142,70 @@ export interface LeaderboardEntry {
 
 export type LeaderboardPeriod = "daily" | "weekly" | "alltime";
 
+// ============ CHAIN ============
+export type ChainGameId = Exclude<GameId, "wordless">;
+
+export const CHAIN_GAMES: ChainGameId[] = [
+  "songless", "sayless", "moreless", "clueless", "spellingbee", "faceless",
+];
+
+export interface Chain {
+  id: string;
+  date: string;
+  status: "in_progress" | "completed" | "broken";
+  currentLinkIndex: number;
+  totalScore: number;
+  links: ChainLink[];
+  createdAt: string;
+  completedAt?: string;
+}
+
+export interface ChainLink {
+  id: number;
+  chainId: string;
+  linkIndex: number;
+  uid: string;
+  displayName?: string;
+  avatar?: string;
+  gameId: ChainGameId;
+  result: "pending" | "playing" | "win" | "loss";
+  score: number;
+  startedAt?: string;
+  completedAt?: string;
+  nominatedNextUid?: string;
+}
+
+// ============ FRIENDS ============
+export interface Friend {
+  uid: string;
+  displayName: string;
+  avatar: string;
+}
+
+export interface FriendRequest {
+  id: number;
+  fromUid: string;
+  fromDisplayName: string;
+  fromAvatar: string;
+  toUid: string;
+  status: "pending" | "accepted" | "rejected";
+  createdAt: string;
+}
+
+// ============ NOTIFICATIONS ============
+export type NotificationType = "chain_invite" | "chain_turn" | "chain_result" | "friend_request";
+
+export interface Notification {
+  id: number;
+  uid: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  data: Record<string, unknown>;
+  read: boolean;
+  createdAt: string;
+}
+
 // ============ ADS ============
 export type AdPlacement = "home-banner" | "post-game-interstitial" | "gauntlet-interstitial" | "rewarded-video" | "leaderboard-rectangle";
 
@@ -150,6 +215,8 @@ export const XP_REWARDS = {
   WIN_DAILY: 100,
   COMPLETE_GAUNTLET: 300,
   SURVIVE_GAUNTLET: 500,
+  COMPLETE_CHAIN: 300,
+  SURVIVE_CHAIN: 500,
   STREAK_7: 200,
   STREAK_30: 1000,
   WATCH_AD: 25,

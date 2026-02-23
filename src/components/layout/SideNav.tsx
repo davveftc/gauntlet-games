@@ -1,15 +1,18 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Swords, Trophy, User, X } from "lucide-react";
+import { Home, Swords, Link2, Trophy, User, Users, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSideNav } from "./SideNavContext";
+import NotificationBell from "@/components/notifications/NotificationBell";
 
 const links = [
   { href: "/", icon: Home, label: "Home" },
   { href: "/gauntlet", icon: Swords, label: "Gauntlet" },
+  { href: "/chain", icon: Link2, label: "Chain" },
   { href: "/leaderboard", icon: Trophy, label: "Ranks" },
+  { href: "/friends", icon: Users, label: "Friends" },
   { href: "/profile", icon: User, label: "Profile" },
 ];
 
@@ -43,12 +46,15 @@ export default function SideNav() {
               <Link href="/" onClick={close}>
                 <h2 className="font-display text-xl font-bold neon-text">GAUNTLET</h2>
               </Link>
-              <button
-                onClick={close}
-                className="p-2 rounded-lg text-muted hover:text-white hover:bg-primary/20 transition-colors"
-              >
-                <X size={20} />
-              </button>
+              <div className="flex items-center gap-2">
+                <NotificationBell />
+                <button
+                  onClick={close}
+                  className="p-2 rounded-lg text-muted hover:text-white hover:bg-primary/20 transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
 
             <div className="flex-1 p-4 space-y-1">

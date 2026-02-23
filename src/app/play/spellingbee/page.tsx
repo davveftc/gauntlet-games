@@ -10,6 +10,7 @@ import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
 import { useGauntletContext } from "@/context/GauntletContext";
+import { useChainContext } from "@/context/ChainContext";
 import SPELLING_DATA from "@/data/spellingbee-words.json";
 
 interface SpellingWord {
@@ -43,6 +44,8 @@ export default function SpellingBeePage() {
   );
   const { startGame, completeGame } = useGame();
   const { isGauntlet } = useGauntletContext();
+  const { isChain } = useChainContext();
+  const isSpecialMode = isGauntlet || isChain;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [results, setResults] = useState<("correct" | "incorrect" | "pending")[]>([]);
@@ -71,7 +74,7 @@ export default function SpellingBeePage() {
       setLastAnswer(null);
 
       // In gauntlet mode, any wrong word = instant loss
-      if (isGauntlet && !isCorrect) {
+      if (isSpecialMode && !isCorrect) {
         setGameOver(true);
         completeGame("spellingbee", "loss", newScore);
         return;
@@ -94,8 +97,8 @@ export default function SpellingBeePage() {
 
   return (
     <div className="pt-6 pb-4">
-      {!isGauntlet && <GameNav />}
-      {!isGauntlet && <ConfettiExplosion trigger={score === WORDS_PER_GAME && gameOver} />}
+      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <ConfettiExplosion trigger={score === WORDS_PER_GAME && gameOver} />}
 
       <div className="text-center mb-6">
         <h2 className="font-display text-4xl lg:text-5xl font-bold mb-1">Spelling Bee</h2>
@@ -146,7 +149,7 @@ export default function SpellingBeePage() {
         </div>
       )}
 
-      {gameOver && !isGauntlet && (
+      {gameOver && !isSpecialMode && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

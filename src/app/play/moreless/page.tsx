@@ -9,6 +9,7 @@ import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
 import { useGauntletContext } from "@/context/GauntletContext";
+import { useChainContext } from "@/context/ChainContext";
 import type { MoreLessPair, MoreLessItem } from "@/types";
 import PAIRS_DATA from "@/data/moreless-pairs.json";
 
@@ -125,6 +126,8 @@ export default function MoreLessPage() {
   );
   const { startGame, completeGame } = useGame();
   const { isGauntlet } = useGauntletContext();
+  const { isChain } = useChainContext();
+  const isSpecialMode = isGauntlet || isChain;
 
   const [activeTab, setActiveTab] = useState(0);
   const [tabStates, setTabStates] = useState<TabState[]>(
@@ -198,7 +201,7 @@ export default function MoreLessPage() {
 
         if (!correct) {
           // In gauntlet mode, any wrong answer = instant loss
-          if (isGauntlet) {
+          if (isSpecialMode) {
             setGameOver(true);
             const total = next.reduce((sum, t) => sum + t.score, 0);
             completeGame("moreless", "loss", total);
@@ -260,8 +263,8 @@ export default function MoreLessPage() {
   /* ================================================================ */
   return (
     <div className="flex flex-col pt-4 pb-2 min-h-[calc(100dvh-5rem)]">
-      {!isGauntlet && <GameNav />}
-      {!isGauntlet && <ConfettiExplosion trigger={gameOver && totalCorrect === MAX_SCORE} />}
+      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalCorrect === MAX_SCORE} />}
 
       <h2 className="font-display text-4xl lg:text-5xl font-bold text-center mb-6">
         More / Less
@@ -446,7 +449,7 @@ export default function MoreLessPage() {
       )}
 
       {/* ---- Game over summary ---- */}
-      {gameOver && !isGauntlet && (
+      {gameOver && !isSpecialMode && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

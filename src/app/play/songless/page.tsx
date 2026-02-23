@@ -13,6 +13,7 @@ import ConfettiExplosion from "@/components/shared/ConfettiExplosion";
 import CountdownTimer from "@/components/shared/CountdownTimer";
 import { useGame } from "@/hooks/useGame";
 import { useGauntletContext } from "@/context/GauntletContext";
+import { useChainContext } from "@/context/ChainContext";
 import type { Song } from "@/types";
 import SONGS from "@/data/songless-songs.json";
 
@@ -93,6 +94,8 @@ export default function SonglessPage() {
   const rounds = useMemo(() => getDailyRounds(SONGS as Song[], today), [today]);
   const { startGame, completeGame } = useGame();
   const { isGauntlet } = useGauntletContext();
+  const { isChain } = useChainContext();
+  const isSpecialMode = isGauntlet || isChain;
 
   const [activeTab, setActiveTab] = useState(0);
   const [roundStates, setRoundStates] = useState<RoundState[]>(createInitialRoundStates);
@@ -180,7 +183,7 @@ export default function SonglessPage() {
     if (gameOver) return;
 
     // In gauntlet mode, any failed round = instant loss
-    if (isGauntlet) {
+    if (isSpecialMode) {
       const failedRound = roundStates.find((r) => r.completed && !r.won);
       if (failedRound) {
         setGameOver(true);
@@ -201,7 +204,7 @@ export default function SonglessPage() {
       setGameOver(true);
       completeGame("songless", won >= 3 ? "win" : "loss", won);
     }
-  }, [roundStates, gameOver, completeGame, isGauntlet]);
+  }, [roundStates, gameOver, completeGame, isSpecialMode]);
 
   const advanceToNextIncomplete = (updatedStates: RoundState[]) => {
     const nextIdx = updatedStates.findIndex((r, i) => !r.completed && i !== activeTab);
@@ -283,8 +286,8 @@ export default function SonglessPage() {
   // ---------- render ----------
   return (
     <div className="flex flex-col pt-4 pb-2 min-h-[calc(100dvh-5rem)]">
-      {!isGauntlet && <GameNav />}
-      {!isGauntlet && <ConfettiExplosion trigger={gameOver && totalCorrect === TOTAL_ROUNDS} />}
+      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalCorrect === TOTAL_ROUNDS} />}
 
       {/* ---- Header ---- */}
       <h2 className="font-display text-4xl lg:text-5xl font-bold text-center mb-6">Songless</h2>
@@ -445,7 +448,7 @@ export default function SonglessPage() {
       )}
 
       {/* ---- Game over summary ---- */}
-      {gameOver && !isGauntlet && (
+      {gameOver && !isSpecialMode && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

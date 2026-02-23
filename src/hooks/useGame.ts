@@ -2,6 +2,7 @@
 import { useGameStore } from "@/stores/gameStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useGauntletContext } from "@/context/GauntletContext";
+import { useChainContext } from "@/context/ChainContext";
 import { saveGameResult, updateStreak, addXP } from "@/lib/db";
 import { XP_REWARDS } from "@/types";
 import type { GameId, GameResult } from "@/types";
@@ -10,9 +11,16 @@ export function useGame() {
   const store = useGameStore();
   const { user, isGuest } = useAuthStore();
   const gauntlet = useGauntletContext();
+  const chain = useChainContext();
 
   const completeGame = async (gameId: GameId, result: GameResult, score?: number) => {
     store.setResult(result);
+
+    // In chain mode, skip normal game history/XP — handled by chain page
+    if (chain.isChain) {
+      chain.onComplete(gameId, result, score);
+      return;
+    }
 
     if (user && !isGuest) {
       await saveGameResult(user.uid, gameId, {
