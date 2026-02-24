@@ -32,24 +32,24 @@ export default function GameCard({
   return (
     <Link href={`/play/${gameId}`}>
       <motion.div
-        className="glass-card p-5 cursor-pointer group relative overflow-hidden"
+        className="glass-card p-3 lg:p-5 cursor-pointer group relative overflow-hidden"
         whileHover={{ scale: 1.03, y: -2 }}
         whileTap={{ scale: 0.98 }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
 
         <div className="relative z-10">
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-3xl">{emoji}</span>
+          <div className="flex items-center justify-between mb-1 lg:mb-3">
+            <span className="text-2xl lg:text-3xl">{emoji}</span>
             {streak > 0 && (
               <span className="flex items-center gap-1 text-accent text-sm font-bold animate-fire">
                 {streak}
               </span>
             )}
           </div>
-          <h3 className="font-display text-lg font-bold mb-1">{title}</h3>
-          <p className="text-muted text-sm mb-3">{description}</p>
-          <span className={`text-sm font-medium ${badge.color}`}>
+          <h3 className="font-display text-base lg:text-lg font-bold">{title}</h3>
+          <p className="text-muted text-sm mb-3 hidden lg:block">{description}</p>
+          <span className={`text-xs lg:text-sm font-medium ${badge.color}`}>
             {badge.text}
           </span>
         </div>
