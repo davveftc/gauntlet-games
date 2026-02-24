@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { getUserProfile } from "@/lib/db";
 import { useAuthStore } from "@/stores/authStore";
@@ -7,6 +8,7 @@ import type { User } from "@/types";
 
 export function useAuth() {
   const { user, loading, isGuest, setUser, setLoading, setGuest } = useAuthStore();
+  const router = useRouter();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -22,7 +24,12 @@ export function useAuth() {
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event, session) => {
+        if (event === "PASSWORD_RECOVERY") {
+          router.push("/reset-password");
+          return;
+        }
+
         if (session?.user) {
           await loadUserProfile(
             session.user.id,
@@ -38,7 +45,7 @@ export function useAuth() {
     );
 
     return () => subscription.unsubscribe();
-  }, [setUser, setLoading, setGuest]);
+  }, [setUser, setLoading, setGuest, router]);
 
   async function loadUserProfile(uid: string, email?: string | null, displayName?: string | null) {
     const profile = await getUserProfile(uid);

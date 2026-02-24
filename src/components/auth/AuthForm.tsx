@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { createUserProfile } from "@/lib/db";
+import { useAuthStore } from "@/stores/authStore";
 import Button from "@/components/shared/Button";
 
 export default function AuthForm() {
@@ -11,11 +12,21 @@ export default function AuthForm() {
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { user } = useAuthStore();
+
+  // Redirect to home once the auth store picks up the user
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     try {
       if (isSignUp) {
         const { data, error: authError } = await supabase.auth.signUp({
@@ -39,9 +50,12 @@ export default function AuthForm() {
         });
         if (authError) throw authError;
       }
-      router.push("/");
+      // Don't router.push here — the AuthProvider's onAuthStateChange will
+      // update the store, and the useEffect above will redirect once user is set
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,7 +64,7 @@ export default function AuthForm() {
       const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/`,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
       if (authError) throw authError;
@@ -101,8 +115,20 @@ export default function AuthForm() {
           minLength={6}
           className="w-full bg-deep/50 border border-primary/30 rounded-xl px-4 py-3 text-white placeholder:text-dim focus:outline-none focus:border-primary"
         />
-        <Button type="submit" variant="primary" size="lg" className="w-full">
-          {isSignUp ? "Sign Up" : "Sign In"}
+
+        {!isSignUp && (
+          <div className="text-right">
+            <a
+              href="/forgot-password"
+              className="text-accent text-sm hover:underline"
+            >
+              Forgot password?
+            </a>
+          </div>
+        )}
+
+        <Button type="submit" variant="primary" size="lg" className="w-full" disabled={loading}>
+          {loading ? "Please wait..." : isSignUp ? "Sign Up" : "Sign In"}
         </Button>
       </form>
 
