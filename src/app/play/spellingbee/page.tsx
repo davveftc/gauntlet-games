@@ -99,20 +99,19 @@ export default function SpellingBeePage() {
   const shareText = `\u{1F41D} GAUNTLET \u2014 Spelling Bee\nScore: ${score}/${WORDS_PER_GAME}\n${results.map((r) => (r === "correct" ? "\u2705" : "\u274C")).join("")}\n\nPlay at gauntlet.gg`;
 
   if (alreadyPlayedLoading) {
-    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+    return <div className="pt-6 pb-4"><GameNav title="Spelling Bee" /><div className="text-center py-12 text-muted">Loading...</div></div>;
   }
 
   if (completedState && !isSpecialMode) {
-    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Spelling Bee" state={completedState} /></div>;
+    return <div className="pt-6 pb-4"><GameNav title="Spelling Bee" /><AlreadyPlayed gameTitle="Spelling Bee" state={completedState} /></div>;
   }
 
   return (
     <div className="pt-6 pb-4">
-      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <GameNav title="Spelling Bee" />}
       {!isSpecialMode && <ConfettiExplosion trigger={score === WORDS_PER_GAME && gameOver} />}
 
       <div className="text-center mb-6">
-        <h2 className="font-display text-4xl lg:text-5xl font-bold mb-1">Spelling Bee</h2>
         <p className="text-muted text-sm">Spell 5 words, each harder than the last</p>
       </div>
 
