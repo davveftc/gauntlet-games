@@ -116,10 +116,10 @@ export async function getUserChainForToday(uid: string): Promise<Chain | null> {
 }
 
 // ---- CREATE CHAIN ----
-export async function createChain(creatorUid: string): Promise<Chain | null> {
+export async function createChain(creatorUid: string): Promise<{ chain: Chain | null; error?: string }> {
   // Check if user already has a chain today
   const existing = await getUserChainForToday(creatorUid);
-  if (existing) return null;
+  if (existing) return { chain: existing, error: "already_exists" };
 
   // Shuffle all 6 games to assign randomly
   const shuffledGames = shuffleArray(CHAIN_GAMES);
@@ -136,10 +136,13 @@ export async function createChain(creatorUid: string): Promise<Chain | null> {
     .select()
     .single();
 
-  if (error || !chainRow) return null;
+  if (error || !chainRow) {
+    console.error("Failed to create chain:", error);
+    return { chain: null, error: "db_error" };
+  }
 
   // Create first link assigned to the creator
-  await supabase.from("chain_links").insert({
+  const { error: linkError } = await supabase.from("chain_links").insert({
     chain_id: chainRow.id,
     link_index: 0,
     uid: creatorUid,
@@ -148,11 +151,19 @@ export async function createChain(creatorUid: string): Promise<Chain | null> {
     score: 0,
   });
 
+  if (linkError) {
+    console.error("Failed to create chain link:", linkError);
+    // Clean up the orphaned chain
+    await supabase.from("chains").delete().eq("id", chainRow.id);
+    return { chain: null, error: "db_error" };
+  }
+
   // Pre-assign game IDs for all 6 links (players TBD for links 1-5)
   // Store game assignments in the chain for later link creation
   // We'll create links 1-5 as players are nominated
 
-  return getChain(chainRow.id);
+  const chain = await getChain(chainRow.id);
+  return { chain };
 }
 
 // ---- GET AVAILABLE GAMES FOR CHAIN ----

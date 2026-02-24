@@ -28,6 +28,7 @@ export default function ChainPage() {
   const [chain, setChain] = useState<Chain | null>(null);
   const [phase, setPhase] = useState<Phase>("loading");
   const [startLoading, setStartLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Determine the phase based on chain state
   const determinePhase = useCallback(
@@ -92,14 +93,33 @@ export default function ChainPage() {
   const handleStartChain = async () => {
     if (!user) return;
     setStartLoading(true);
-    const newChain = await createChain(user.uid);
-    if (newChain) {
-      setChain(newChain);
+    setError(null);
+    try {
+      const result = await createChain(user.uid);
+
+      if (result.error === "already_exists" && result.chain) {
+        // User already has a chain today — show it
+        setChain(result.chain);
+        setPhase(determinePhase(result.chain));
+        setStartLoading(false);
+        return;
+      }
+
+      if (!result.chain) {
+        setError("Could not start chain. Please try again.");
+        setStartLoading(false);
+        return;
+      }
+
+      setChain(result.chain);
       setPhase("playing");
       // Auto-start the first link
-      await startLink(newChain.id, 0);
-      const updated = await getChain(newChain.id);
+      await startLink(result.chain.id, 0);
+      const updated = await getChain(result.chain.id);
       if (updated) setChain(updated);
+    } catch (err) {
+      console.error("Error starting chain:", err);
+      setError("Something went wrong. Please try again.");
     }
     setStartLoading(false);
   };
@@ -168,7 +188,7 @@ export default function ChainPage() {
       )}
 
       {phase === "start" && (
-        <ChainStart onStart={handleStartChain} loading={startLoading} />
+        <ChainStart onStart={handleStartChain} loading={startLoading} error={error} />
       )}
 
       {phase === "playing" && chain && currentLink && (
