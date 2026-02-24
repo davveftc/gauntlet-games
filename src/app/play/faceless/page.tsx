@@ -400,7 +400,7 @@ export default function FacelessPage() {
             {!currentState.completed ? (
               <>
                 {/* ---- Guess lives bar ---- */}
-                <div className="flex items-center justify-center gap-3 mb-4 py-2 px-4 rounded-xl bg-surface/30 border border-dim/15">
+                <div className="flex items-center justify-center gap-3 mb-2 lg:mb-4 py-1.5 lg:py-2 px-4 rounded-xl bg-surface/30 border border-dim/15">
                   <div className="flex gap-2">
                     {Array.from({ length: MAX_ATTEMPTS }).map((_, i) => {
                       const used = i < currentState.attemptIndex;
@@ -408,7 +408,7 @@ export default function FacelessPage() {
                       return (
                         <div
                           key={i}
-                          className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                          className={`w-6 h-6 lg:w-7 lg:h-7 rounded-full flex items-center justify-center transition-all ${
                             used
                               ? "bg-error/20 border border-error/40"
                               : current
@@ -417,10 +417,10 @@ export default function FacelessPage() {
                           }`}
                         >
                           {used ? (
-                            <XIcon size={14} className="text-error/70" />
+                            <XIcon size={12} className="text-error/70" />
                           ) : (
                             <span
-                              className={`text-xs font-bold ${
+                              className={`text-[10px] lg:text-xs font-bold ${
                                 current ? "text-accent" : "text-dim/40"
                               }`}
                             >
@@ -452,7 +452,7 @@ export default function FacelessPage() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center mt-3"
+                    className="text-center mt-2"
                   >
                     <span className="inline-block px-3 py-1 rounded-full bg-accent/20 border border-accent/30 text-accent text-xs font-medium">
                       {currentCeleb.celeb.category}
@@ -461,13 +461,13 @@ export default function FacelessPage() {
                 )}
 
                 {/* ---- Hint button + input ---- */}
-                <div className="mt-3 space-y-3">
+                <div className="mt-2 lg:mt-3 space-y-2 lg:space-y-3">
                   {!currentState.hintUsed && (
                     <button
                       onClick={handleHint}
-                      className="flex items-center justify-center gap-2 mx-auto px-5 py-2.5 rounded-xl bg-accent/15 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/25 transition-all"
+                      className="flex items-center justify-center gap-2 mx-auto px-4 py-2 rounded-xl bg-accent/15 border border-accent/30 text-accent text-sm font-medium hover:bg-accent/25 transition-all"
                     >
-                      <Eye size={18} />
+                      <Eye size={16} />
                       <span>Reveal Category</span>
                       <span className="text-[10px] text-accent/60 ml-1">(-1 guess)</span>
                     </button>

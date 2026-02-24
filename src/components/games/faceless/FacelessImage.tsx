@@ -34,7 +34,7 @@ export default function FacelessImage({
 
   return (
     <motion.div
-      className="w-full max-w-sm mx-auto aspect-square rounded-2xl overflow-hidden glass-card relative"
+      className="w-full max-w-sm mx-auto aspect-[4/3] lg:aspect-square rounded-2xl overflow-hidden glass-card relative"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
