@@ -351,7 +351,7 @@ export default function FacelessPage() {
       {!isSpecialMode && <GameNav title="Faceless" />}
       {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalScore === MAX_SCORE} />}
 
-      <p className="text-muted text-sm text-center mb-3">Identify the celebrity from a zoomed-in photo</p>
+      <p className="text-muted text-sm text-center mb-3">Identify celebrities from a blurred out photo</p>
 
       {/* ---- Round tabs ---- */}
       <div className="flex gap-1 mb-3">
