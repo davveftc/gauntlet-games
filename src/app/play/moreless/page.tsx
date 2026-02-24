@@ -20,7 +20,7 @@ import PAIRS_DATA from "@/data/moreless-pairs.json";
 /* ------------------------------------------------------------------ */
 const CATEGORIES = [
   "Google Searches",
-  "Spotify Streams",
+  "Monthly Listeners",
   "Movie Ratings",
 ] as const;
 
@@ -29,10 +29,10 @@ const ITEMS_PER_TAB = ROUNDS_PER_TAB + 1; // 11 items → 10 comparisons
 const TOTAL_TABS = CATEGORIES.length;
 const MAX_SCORE = ROUNDS_PER_TAB * TOTAL_TABS;
 
-const CATEGORY_QUESTIONS: Record<string, string> = {
-  "Google Searches": "Which gets MORE Google searches?",
-  "Spotify Streams": "Which has MORE Spotify streams?",
-  "Movie Ratings": "Which has the HIGHER IMDb rating?",
+const CATEGORY_QUESTIONS: Record<string, { before: string; keyword: string; after: string }> = {
+  "Google Searches": { before: "Which gets ", keyword: "MORE", after: " Google searches?" },
+  "Monthly Listeners": { before: "Who has ", keyword: "MORE", after: " monthly listeners?" },
+  "Movie Ratings": { before: "Which has the ", keyword: "HIGHER", after: " IMDb rating?" },
 };
 
 /* ------------------------------------------------------------------ */
@@ -350,8 +350,10 @@ export default function MoreLessPage() {
                 </div>
 
                 {/* ---- Question ---- */}
-                <p className="text-center text-5xl font-display font-bold text-white/80 mt-16 mb-16">
-                  {CATEGORY_QUESTIONS[currentCategory]}
+                <p className="text-center text-3xl lg:text-4xl font-display font-bold text-white/80 mt-16 mb-16">
+                  {CATEGORY_QUESTIONS[currentCategory].before}
+                  <span className="text-accent">{CATEGORY_QUESTIONS[currentCategory].keyword}</span>
+                  {CATEGORY_QUESTIONS[currentCategory].after}
                 </p>
 
                 {/* ---- Cards ---- */}

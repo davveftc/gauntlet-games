@@ -18,7 +18,7 @@ export default function GameNav({ title }: GameNavProps) {
         <ArrowLeft size={22} />
       </button>
       {title && (
-        <h2 className="flex-1 font-display text-2xl font-bold text-center -ml-8">
+        <h2 className="flex-1 font-display text-4xl lg:text-5xl font-bold text-center -ml-8">
           {title}
         </h2>
       )}

@@ -81,84 +81,84 @@
   },
 
   {
-    "itemA": { "name": "Blinding Lights - The Weeknd", "value": 4300000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Shape of You - Ed Sheeran", "value": 3900000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "The Weeknd", "value": 105000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Ed Sheeran", "value": 92000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Someone You Loved - Lewis Capaldi", "value": 2900000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Dance Monkey - Tones and I", "value": 2300000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Taylor Swift", "value": 88000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Billie Eilish", "value": 72000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Sunflower - Post Malone", "value": 2400000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Rockstar - Post Malone", "value": 2300000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Drake", "value": 82000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Post Malone", "value": 65000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "One Dance - Drake", "value": 2500000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "God's Plan - Drake", "value": 2100000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Bad Bunny", "value": 78000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Dua Lipa", "value": 68000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Closer - The Chainsmokers", "value": 2600000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "STAY - Kid LAROI & Bieber", "value": 2400000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Bruno Mars", "value": 85000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Justin Bieber", "value": 70000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Starboy - The Weeknd", "value": 2500000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Save Your Tears - The Weeknd", "value": 2300000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Ariana Grande", "value": 75000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Doja Cat", "value": 62000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Heat Waves - Glass Animals", "value": 2200000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Levitating - Dua Lipa", "value": 1800000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Eminem", "value": 58000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Kanye West", "value": 55000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Bad Guy - Billie Eilish", "value": 2300000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Lovely - Billie Eilish", "value": 2000000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Rihanna", "value": 60000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "SZA", "value": 58000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Bohemian Rhapsody - Queen", "value": 2100000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Don't Stop Me Now - Queen", "value": 1600000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Kendrick Lamar", "value": 52000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Travis Scott", "value": 48000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Senorita - Shawn Mendes", "value": 2300000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Havana - Camila Cabello", "value": 1800000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Harry Styles", "value": 55000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Olivia Rodrigo", "value": 50000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "As It Was - Harry Styles", "value": 2600000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Watermelon Sugar - Harry Styles", "value": 2000000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Imagine Dragons", "value": 60000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Coldplay", "value": 62000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Old Town Road - Lil Nas X", "value": 1900000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Lucid Dreams - Juice WRLD", "value": 1900000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Beyonce", "value": 48000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Lady Gaga", "value": 45000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "HUMBLE. - Kendrick Lamar", "value": 1800000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Sicko Mode - Travis Scott", "value": 1700000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Adele", "value": 50000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Sam Smith", "value": 42000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "drivers license - Olivia Rodrigo", "value": 1600000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "good 4 u - Olivia Rodrigo", "value": 1500000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Miley Cyrus", "value": 52000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Selena Gomez", "value": 46000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Thinking Out Loud - Ed Sheeran", "value": 2200000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Perfect - Ed Sheeran", "value": 2500000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "21 Savage", "value": 44000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Lil Baby", "value": 40000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Despacito - Luis Fonsi", "value": 1800000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Uptown Funk - Bruno Mars", "value": 2000000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Peso Pluma", "value": 55000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Feid", "value": 52000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Believer - Imagine Dragons", "value": 2300000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Radioactive - Imagine Dragons", "value": 1600000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Sabrina Carpenter", "value": 70000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Chappell Roan", "value": 45000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Shallow - Lady Gaga", "value": 1800000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Born This Way - Lady Gaga", "value": 900000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Metro Boomin", "value": 38000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Future", "value": 42000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Somebody That I Used to Know - Gotye", "value": 1500000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Take Me to Church - Hozier", "value": 1400000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "Tate McRae", "value": 48000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Gracie Abrams", "value": 35000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
   {
-    "itemA": { "name": "Counting Stars - OneRepublic", "value": 2000000000, "category": "Spotify Streams", "unit": "streams" },
-    "itemB": { "name": "Apologize - OneRepublic", "value": 1300000000, "category": "Spotify Streams", "unit": "streams" }
+    "itemA": { "name": "BTS", "value": 40000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "BLACKPINK", "value": 35000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
 
   {
