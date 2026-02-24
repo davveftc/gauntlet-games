@@ -16,7 +16,7 @@ interface GameGridProps {
 
 export default function GameGrid({ games, history }: GameGridProps) {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+    <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 lg:gap-4 mt-4 lg:mt-6">
       {games.map((game) => {
         const gameState = history?.games?.[game.gameId];
         const status: GameResult = gameState?.result || "not-started";
