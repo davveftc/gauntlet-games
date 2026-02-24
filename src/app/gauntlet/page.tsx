@@ -5,6 +5,7 @@ import GauntletProgress from "@/components/gauntlet/GauntletProgress";
 import GauntletRunner from "@/components/gauntlet/GauntletRunner";
 import GauntletResult from "@/components/gauntlet/GauntletResult";
 import AuthGuard from "@/components/auth/AuthGuard";
+import GameNav from "@/components/layout/GameNav";
 import Button from "@/components/shared/Button";
 import type { GameId } from "@/types";
 
@@ -81,6 +82,8 @@ export default function GauntletPage() {
   /* ================================================================ */
   return (
     <AuthGuard requireAuth>
+      <GameNav />
+
       {/* ---- Game selection screen ---- */}
       {!started && (
         <div className="pt-6 flex flex-col items-center justify-center min-h-[80vh] text-center">

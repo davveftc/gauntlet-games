@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { useAuthStore } from "@/stores/authStore";
+import GameNav from "@/components/layout/GameNav";
 import {
   createChain,
   getChain,
@@ -181,6 +182,8 @@ export default function ChainPage() {
 
   return (
     <AuthGuard requireAuth>
+      <GameNav />
+
       {phase === "loading" && (
         <div className="min-h-[80vh] flex items-center justify-center">
           <div className="animate-pulse text-primary-light font-display text-xl">Loading...</div>
