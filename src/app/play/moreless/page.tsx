@@ -20,7 +20,7 @@ import PAIRS_DATA from "@/data/moreless-pairs.json";
 /* ------------------------------------------------------------------ */
 const CATEGORIES = [
   "Google Searches",
-  "Spotify Streams",
+  "Monthly Listeners",
   "Movie Ratings",
 ] as const;
 
@@ -31,7 +31,7 @@ const MAX_SCORE = ROUNDS_PER_TAB * TOTAL_TABS;
 
 const CATEGORY_QUESTIONS: Record<string, { before: string; keyword: string; after: string }> = {
   "Google Searches": { before: "Which gets ", keyword: "MORE", after: " Google searches?" },
-  "Spotify Streams": { before: "Which has ", keyword: "MORE", after: " Spotify streams?" },
+  "Monthly Listeners": { before: "Who has ", keyword: "MORE", after: " monthly listeners?" },
   "Movie Ratings": { before: "Which has the ", keyword: "HIGHER", after: " IMDb rating?" },
 };
 
