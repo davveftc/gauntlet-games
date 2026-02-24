@@ -8,7 +8,7 @@
  * or falls back to local defaults.
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "http://localhost:54321";
 const SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "demo-service-role-key";
@@ -55,7 +55,8 @@ async function main() {
   console.log("---------------------\n");
 }
 
-async function ensureProfile(supabase: ReturnType<typeof createClient>, uid: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function ensureProfile(supabase: SupabaseClient<any, any, any>, uid: string) {
   const today = new Date().toISOString().split("T")[0];
 
   const { data: existing } = await supabase
