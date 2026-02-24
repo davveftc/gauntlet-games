@@ -1,6 +1,5 @@
 "use client";
 import { useState, useMemo } from "react";
-import WORDLESS_WORDS from "@/data/wordless-words.json";
 import CLUELESS_DATA from "@/data/clueless-words.json";
 import MORELESS_PAIRS from "@/data/moreless-pairs.json";
 import SONGLESS_SONGS from "@/data/songless-songs.json";
@@ -25,10 +24,6 @@ interface ContentSection {
 function getDailyContent(date: string): ContentSection[] {
   const hash = hashDate(date);
   const sections: ContentSection[] = [];
-
-  // Wordless
-  const wordlessWord = WORDLESS_WORDS[hash % WORDLESS_WORDS.length]?.toUpperCase() ?? "N/A";
-  sections.push({ game: "Wordless", emoji: "\u{1F524}", content: `Target word: ${wordlessWord}` });
 
   // Clueless
   const cluelessEntry = (CLUELESS_DATA as { word: string }[])[hash % CLUELESS_DATA.length];

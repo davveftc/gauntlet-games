@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import type { GameAnalytics } from "@/lib/admin-db";
 
 const GAME_NAMES: Record<string, { label: string; emoji: string }> = {
-  wordless: { label: "Wordless", emoji: "\u{1F524}" },
   songless: { label: "Songless", emoji: "\u{1F3B5}" },
   sayless: { label: "Say Less", emoji: "\u{1F3AC}" },
   moreless: { label: "More/Less", emoji: "\u{1F4CA}" },

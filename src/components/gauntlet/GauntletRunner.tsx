@@ -12,7 +12,7 @@ import type { GameId, GameResult } from "@/types";
 /*  Dynamically import each game page component                        */
 /* ------------------------------------------------------------------ */
 const GameComponents: Record<GameId, React.ComponentType> = {
-  wordless: dynamic(() => import("@/app/play/wordless/page"), { ssr: false }),
+  wordless: dynamic(() => import("@/app/play/songless/page"), { ssr: false }), // archived – placeholder
   songless: dynamic(() => import("@/app/play/songless/page"), { ssr: false }),
   sayless: dynamic(() => import("@/app/play/sayless/page"), { ssr: false }),
   moreless: dynamic(() => import("@/app/play/moreless/page"), { ssr: false }),
