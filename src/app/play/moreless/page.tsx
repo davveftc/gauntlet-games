@@ -277,6 +277,8 @@ export default function MoreLessPage() {
       {!isSpecialMode && <GameNav title="More / Less" />}
       {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalCorrect === MAX_SCORE} />}
 
+      <p className="text-muted text-sm text-center mb-3">Pick which has more — one wrong answer ends the streak</p>
+
       {/* ---- Category tabs ---- */}
       <div className="flex gap-1 mb-3">
         {CATEGORIES.map((cat, i) => {

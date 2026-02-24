@@ -270,6 +270,8 @@ export default function SayLessPage() {
       {!isSpecialMode && <GameNav title="Say Less" />}
       {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalCorrect === TOTAL_ROUNDS} />}
 
+      <p className="text-muted text-sm text-center mb-3">Name the movie from a famous quote</p>
+
       {/* ---- Bonus phase ---- */}
       {bonusPhase && !gameOver && (
         <SayLessBonusRound

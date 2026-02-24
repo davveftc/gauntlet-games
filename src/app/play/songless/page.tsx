@@ -300,6 +300,8 @@ export default function SonglessPage() {
       {!isSpecialMode && <GameNav title="Songless" />}
       {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalCorrect === TOTAL_ROUNDS} />}
 
+      <p className="text-muted text-sm text-center mb-3">Listen to a short clip and name the song</p>
+
       {/* ---- Category tabs ---- */}
       <div className="flex gap-1 mb-3">
         {rounds.map((_, i) => {
