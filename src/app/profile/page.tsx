@@ -1,6 +1,8 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/authStore";
 import { useProfileStore } from "@/stores/profileStore";
+import { supabase } from "@/lib/supabase";
 import TopBar from "@/components/layout/TopBar";
 import XPBar from "@/components/profile/XPBar";
 import StatsGrid from "@/components/profile/StatsGrid";
@@ -8,10 +10,17 @@ import StreakDisplay from "@/components/profile/StreakDisplay";
 import UnlocksGrid from "@/components/profile/UnlocksGrid";
 import Button from "@/components/shared/Button";
 import Link from "next/link";
+import { LogOut } from "lucide-react";
 
 export default function ProfilePage() {
+  const router = useRouter();
   const { user } = useAuthStore();
   const { xp, level, streaks, unlocks, totalGamesPlayed, totalWins, gauntletSurvivals } = useProfileStore();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.push("/");
+  };
 
   if (!user) {
     return (
@@ -53,6 +62,16 @@ export default function ProfilePage() {
         <StreakDisplay streaks={streaks} />
       </div>
       <UnlocksGrid unlocks={unlocks} />
+
+      <div className="mt-8 flex justify-center">
+        <button
+          onClick={handleSignOut}
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-surface/30 border border-dim/20 text-muted hover:text-error hover:border-error/30 hover:bg-error/5 transition-colors text-sm font-medium"
+        >
+          <LogOut size={16} />
+          Sign Out
+        </button>
+      </div>
     </div>
   );
 }
