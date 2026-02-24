@@ -12,7 +12,7 @@ import AdminsTab from "@/components/admin/AdminsTab";
 import type { AdminTab } from "@/components/admin/AdminTabs";
 
 export default function AdminPage() {
-  const { user } = useAuthStore();
+  const { user, loading: authLoading } = useAuthStore();
   const [activeTab, setActiveTab] = useState<AdminTab>("overview");
   const [isAdmin, setIsAdmin] = useState(false);
   const [checking, setChecking] = useState(true);
@@ -67,8 +67,8 @@ export default function AdminPage() {
     await supabase.auth.signOut();
   };
 
-  // Loading state
-  if (checking && user) {
+  // Loading state (waiting for auth session or admin check)
+  if (authLoading || (checking && user)) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
         <div className="animate-pulse text-primary-light font-display text-xl">
@@ -125,6 +125,15 @@ export default function AdminPage() {
             {loginError && (
               <p className="text-error text-sm text-center">{loginError}</p>
             )}
+
+            <div className="text-right">
+              <a
+                href="/forgot-password"
+                className="text-accent text-sm hover:underline"
+              >
+                Forgot password?
+              </a>
+            </div>
 
             <button
               type="submit"

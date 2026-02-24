@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import AnimatedBackground from "@/components/layout/AnimatedBackground";
 import LayoutShell from "@/components/layout/LayoutShell";
 import AdProvider from "@/components/ads/AdProvider";
+import AuthProvider from "@/components/auth/AuthProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -24,9 +25,11 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body min-h-screen bg-deep text-white">
-        <AdProvider />
-        <AnimatedBackground />
-        <LayoutShell>{children}</LayoutShell>
+        <AuthProvider>
+          <AdProvider />
+          <AnimatedBackground />
+          <LayoutShell>{children}</LayoutShell>
+        </AuthProvider>
       </body>
     </html>
   );
