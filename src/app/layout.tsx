@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Gauntlet \u2014 Daily Games",
   description:
-    "Play Wordless, Songless, More/Less, Clueless, and Spelling Bee. Survive the Gauntlet.",
+    "Play Songless, Say Less, More/Less, Clueless, Spelling Bee, and Faceless. Survive the Gauntlet.",
 };
 
 export default function RootLayout({

@@ -7,7 +7,6 @@ export async function GET() {
 
   return NextResponse.json({
     date: today,
-    wordless: { word: "CRANE" },
     songless: { songId: "1" },
     moreless: { pairCount: 10 },
     clueless: { targetWord: "OCEAN" },

@@ -11,12 +11,6 @@ import type { DailyHistory, GameId } from "@/types";
 
 const GAMES: { gameId: GameId; title: string; description: string; emoji: string }[] = [
   {
-    gameId: "wordless",
-    title: "Wordless",
-    description: "Guess the 5-letter word in 6 tries",
-    emoji: "\u{1F524}",
-  },
-  {
     gameId: "songless",
     title: "Songless",
     description: "Name the song from a 0.1s clip",

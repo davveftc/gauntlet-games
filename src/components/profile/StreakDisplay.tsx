@@ -5,7 +5,7 @@ interface StreakDisplayProps {
   streaks: UserStreaks | null;
 }
 
-const GAME_IDS: GameId[] = ["wordless", "songless", "sayless", "moreless", "clueless", "spellingbee", "faceless"];
+const GAME_IDS: GameId[] = ["songless", "sayless", "moreless", "clueless", "spellingbee", "faceless"];
 const GAME_NAMES: Record<GameId, string> = {
   wordless: "Wordless",
   songless: "Songless",

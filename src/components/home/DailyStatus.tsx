@@ -6,7 +6,7 @@ interface DailyStatusProps {
   history: DailyHistory | null;
 }
 
-const GAME_IDS: GameId[] = ["wordless", "songless", "sayless", "moreless", "clueless", "spellingbee", "faceless"];
+const GAME_IDS: GameId[] = ["songless", "sayless", "moreless", "clueless", "spellingbee", "faceless"];
 
 export default function DailyStatus({ history }: DailyStatusProps) {
   const timeLeft = useCountdown();

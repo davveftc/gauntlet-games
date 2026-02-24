@@ -13,7 +13,6 @@ import type { GameId } from "@/types";
 /*  All available games                                                */
 /* ------------------------------------------------------------------ */
 const ALL_GAMES: { id: GameId; name: string; emoji: string }[] = [
-  { id: "wordless", name: "Wordless", emoji: "🔤" },
   { id: "songless", name: "Songless", emoji: "🎵" },
   { id: "sayless", name: "Say Less", emoji: "🎬" },
   { id: "moreless", name: "More/Less", emoji: "📊" },
