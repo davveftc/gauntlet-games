@@ -112,20 +112,19 @@ export default function CluelessPage() {
   const shareText = `\u{1F50D} GAUNTLET \u2014 Clueless\n${won ? `Found it in ${guesses.length} guesses!` : "Still searching..."}\n\nPlay at gauntlet.gg`;
 
   if (alreadyPlayedLoading) {
-    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+    return <div className="pt-6 pb-4"><GameNav title="Clueless" /><div className="text-center py-12 text-muted">Loading...</div></div>;
   }
 
   if (completedState && !isSpecialMode) {
-    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Clueless" state={completedState} /></div>;
+    return <div className="pt-6 pb-4"><GameNav title="Clueless" /><AlreadyPlayed gameTitle="Clueless" state={completedState} /></div>;
   }
 
   return (
     <div className="pt-6 pb-4">
-      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <GameNav title="Clueless" />}
       {!isSpecialMode && <ConfettiExplosion trigger={won} />}
 
       <div className="text-center mb-6">
-        <h2 className="font-display text-4xl lg:text-5xl font-bold mb-1">Clueless</h2>
         <p className="text-muted text-sm">Find the secret word by semantic similarity</p>
       </div>
 

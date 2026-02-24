@@ -186,20 +186,19 @@ export default function WordlessPage() {
   );
 
   if (alreadyPlayedLoading) {
-    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+    return <div className="pt-6 pb-4"><GameNav title="Wordless" /><div className="text-center py-12 text-muted">Loading...</div></div>;
   }
 
   if (completedState && !isGauntlet) {
-    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Wordless" state={completedState} /></div>;
+    return <div className="pt-6 pb-4"><GameNav title="Wordless" /><AlreadyPlayed gameTitle="Wordless" state={completedState} /></div>;
   }
 
   return (
     <div className="pt-6 pb-4">
-      {!isGauntlet && <GameNav />}
+      {!isGauntlet && <GameNav title="Wordless" />}
       {!isGauntlet && <ConfettiExplosion trigger={won} />}
 
       <div className="text-center mb-6">
-        <h2 className="font-display text-4xl lg:text-5xl font-bold mb-1">Wordless</h2>
         <p className="text-muted text-sm">Guess the 5-letter word in 6 tries</p>
       </div>
 

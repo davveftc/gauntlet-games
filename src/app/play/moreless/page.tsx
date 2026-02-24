@@ -265,21 +265,17 @@ export default function MoreLessPage() {
 
   /* ================================================================ */
   if (alreadyPlayedLoading) {
-    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+    return <div className="pt-6 pb-4"><GameNav title="More / Less" /><div className="text-center py-12 text-muted">Loading...</div></div>;
   }
 
   if (completedState && !isSpecialMode) {
-    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="More / Less" state={completedState} /></div>;
+    return <div className="pt-6 pb-4"><GameNav title="More / Less" /><AlreadyPlayed gameTitle="More / Less" state={completedState} /></div>;
   }
 
   return (
     <div className="flex flex-col pt-4 pb-2 min-h-[calc(100dvh-5rem)]">
-      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <GameNav title="More / Less" />}
       {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalCorrect === MAX_SCORE} />}
-
-      <h2 className="font-display text-4xl lg:text-5xl font-bold text-center mb-6">
-        More / Less
-      </h2>
 
       {/* ---- Category tabs ---- */}
       <div className="flex gap-1 mb-3">

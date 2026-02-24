@@ -258,20 +258,17 @@ export default function SayLessPage() {
 
   // ---------- render ----------
   if (alreadyPlayedLoading) {
-    return <div className="pt-6 pb-4"><GameNav /><div className="text-center py-12 text-muted">Loading...</div></div>;
+    return <div className="pt-6 pb-4"><GameNav title="Say Less" /><div className="text-center py-12 text-muted">Loading...</div></div>;
   }
 
   if (completedState && !isSpecialMode) {
-    return <div className="pt-6 pb-4"><GameNav /><AlreadyPlayed gameTitle="Say Less" state={completedState} /></div>;
+    return <div className="pt-6 pb-4"><GameNav title="Say Less" /><AlreadyPlayed gameTitle="Say Less" state={completedState} /></div>;
   }
 
   return (
     <div className="flex flex-col pt-4 pb-2 min-h-[calc(100dvh-5rem)]">
-      {!isSpecialMode && <GameNav />}
+      {!isSpecialMode && <GameNav title="Say Less" />}
       {!isSpecialMode && <ConfettiExplosion trigger={gameOver && totalCorrect === TOTAL_ROUNDS} />}
-
-      {/* ---- Header ---- */}
-      <h2 className="font-display text-4xl lg:text-5xl font-bold text-center mb-6">Say Less</h2>
 
       {/* ---- Bonus phase ---- */}
       {bonusPhase && !gameOver && (
