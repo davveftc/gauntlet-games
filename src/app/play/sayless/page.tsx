@@ -383,7 +383,12 @@ export default function SayLessPage() {
               </div>
 
               {/* ---- Player ---- */}
-              <SayLessPlayer quote={currentRound.movie.quote} />
+              <SayLessPlayer
+                quote={currentRound.movie.quote}
+                posterUrl={posterUrls[activeTab]}
+                guessNumber={currentState.guesses.length}
+                maxGuesses={MAX_GUESSES}
+              />
 
               {/* ---- Search + submit + skip ---- */}
               {!currentState.completed && (
