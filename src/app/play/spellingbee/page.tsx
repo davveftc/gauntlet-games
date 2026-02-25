@@ -126,7 +126,7 @@ export default function SpellingBeePage() {
         <div className="space-y-6">
           <div className="text-center">
             <p className="text-accent text-sm mb-4">Difficulty: {difficultyStars}</p>
-            <SpellingBeeAudio word={currentWord.word} audioUrl={currentWord.audioUrl} />
+            <SpellingBeeAudio key={currentWord.word} word={currentWord.word} audioUrl={currentWord.audioUrl} />
             <p className="text-muted text-xs mt-3">Tap to hear the word</p>
             {currentWord.definition && (
               <p className="text-muted text-sm mt-2 italic">&ldquo;{currentWord.definition}&rdquo;</p>

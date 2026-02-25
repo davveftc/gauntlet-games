@@ -15,12 +15,17 @@ export default function SpellingBeeAudio({ word, audioUrl }: SpellingBeeAudioPro
   const howlRef = useRef<Howl | null>(null);
   const resolvedUrlRef = useRef<string | null>(null);
 
-  // Clean up Howl instance when word changes
+  // Clean up Howl instance and reset state when word changes
   useEffect(() => {
     resolvedUrlRef.current = null;
+    setIsPlaying(false);
+    setIsLoading(false);
     if (howlRef.current) {
       howlRef.current.unload();
       howlRef.current = null;
+    }
+    if ("speechSynthesis" in window) {
+      speechSynthesis.cancel();
     }
   }, [word]);
 
