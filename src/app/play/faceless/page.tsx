@@ -296,7 +296,7 @@ export default function FacelessPage() {
   const handleHint = () => {
     if (currentState.hintUsed || currentState.completed || gameOver) return;
 
-    // Hint costs 1 guess but does NOT zoom out
+    // Hint costs 1 guess and reduces blur
     const newAttemptIndex = currentState.attemptIndex + 1;
 
     setRoundStates((prev) => {
@@ -312,7 +312,7 @@ export default function FacelessPage() {
           score: 0,
         };
       } else {
-        // Only increment attemptIndex for scoring, NOT wrongGuesses for zoom
+        // Increment attemptIndex (costs a guess and reduces blur)
         next[activeTab] = {
           ...next[activeTab],
           hintUsed: true,
@@ -442,7 +442,7 @@ export default function FacelessPage() {
                 <FacelessImage
                   imageUrl={imageUrl}
                   loading={imageLoading}
-                  zoomLevel={currentState.guesses.length}
+                  zoomLevel={currentState.attemptIndex}
                   focalPoint={currentCeleb.focalPoint}
                   revealed={false}
                 />
