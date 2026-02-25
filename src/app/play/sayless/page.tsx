@@ -59,7 +59,7 @@ const GENRE_CATEGORIES = ["Action", "Comedy", "Thriller"] as const;
 
 // ---------- daily round generation ----------
 function getDailyRounds(movies: MovieQuote[], date: string): Round[] {
-  const rng = createRng(hashDate(date));
+  const rng = createRng(hashDate(date + "-v2"));
 
   const genreMap = new Map<string, MovieQuote[]>();
   for (const movie of movies) {

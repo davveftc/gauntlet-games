@@ -93,7 +93,7 @@ function getDailyItems(
   allPairs: MoreLessPair[],
   date: string
 ): Record<string, MoreLessItem[]> {
-  const rng = createRng(hashDate(date));
+  const rng = createRng(hashDate(date + "-v2"));
   const result: Record<string, MoreLessItem[]> = {};
 
   for (const cat of CATEGORIES) {

@@ -58,7 +58,7 @@ const GENRE_CATEGORIES = ["Hip-Hop", "Pop", "Rock"] as const;
 
 // ---------- daily round generation ----------
 function getDailyRounds(songs: Song[], date: string): Round[] {
-  const rng = createRng(hashDate(date));
+  const rng = createRng(hashDate(date + "-v2"));
 
   const genreMap = new Map<string, Song[]>();
   for (const song of songs) {
