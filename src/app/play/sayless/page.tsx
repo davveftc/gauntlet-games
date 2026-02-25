@@ -182,16 +182,6 @@ export default function SayLessPage() {
     }
   }, [roundStates, gameOver, bonusPhase, completeGame, isSpecialMode]);
 
-  const advanceToNextIncomplete = (updatedStates: RoundState[]) => {
-    const nextIdx = updatedStates.findIndex((r, i) => !r.completed && i !== activeTab);
-    if (nextIdx !== -1) {
-      setTimeout(() => {
-        setActiveTab(nextIdx);
-        setPendingMovie(null);
-      }, 600);
-    }
-  };
-
   const handleSuccessContinue = () => {
     setSuccessRound(null);
     const nextIdx = roundStates.findIndex((r, i) => !r.completed && i !== activeTab);
@@ -217,10 +207,8 @@ export default function SayLessPage() {
     setRoundStates((prev) => {
       const next = [...prev];
       next[activeTab] = { guesses: newGuesses, completed: done, won: isCorrect };
-      if (done && isCorrect) {
+      if (done) {
         setSuccessRound(activeTab);
-      } else if (done) {
-        advanceToNextIncomplete(next);
       }
       return next;
     });
@@ -235,7 +223,7 @@ export default function SayLessPage() {
     setRoundStates((prev) => {
       const next = [...prev];
       next[activeTab] = { guesses: newGuesses, completed: done, won: false };
-      if (done) advanceToNextIncomplete(next);
+      if (done) setSuccessRound(activeTab);
       return next;
     });
   };
@@ -324,6 +312,7 @@ export default function SayLessPage() {
                 genre={rounds[successRound].movie.genre}
                 quote={rounds[successRound].movie.quote}
                 posterUrl={posterUrls[successRound]}
+                won={roundStates[successRound].won}
                 onContinue={handleSuccessContinue}
               />
             )}
@@ -383,12 +372,7 @@ export default function SayLessPage() {
               </div>
 
               {/* ---- Player ---- */}
-              <SayLessPlayer
-                quote={currentRound.movie.quote}
-                posterUrl={posterUrls[activeTab]}
-                guessNumber={currentState.guesses.length}
-                maxGuesses={MAX_GUESSES}
-              />
+              <SayLessPlayer quote={currentRound.movie.quote} />
 
               {/* ---- Search + submit + skip ---- */}
               {!currentState.completed && (

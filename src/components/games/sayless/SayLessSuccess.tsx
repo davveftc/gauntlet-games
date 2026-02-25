@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Film, PartyPopper } from "lucide-react";
+import { Film, PartyPopper, XCircle } from "lucide-react";
 import Button from "@/components/shared/Button";
 
 interface SayLessSuccessProps {
@@ -9,6 +9,7 @@ interface SayLessSuccessProps {
   genre: string;
   quote: string;
   posterUrl: string | null;
+  won: boolean;
   onContinue: () => void;
 }
 
@@ -18,11 +19,15 @@ export default function SayLessSuccess({
   genre,
   quote,
   posterUrl,
+  won,
   onContinue,
 }: SayLessSuccessProps) {
   const handleContinue = () => {
     onContinue();
   };
+
+  const borderColor = won ? "border-success/30" : "border-error/30";
+  const shadowColor = won ? "shadow-success/10" : "shadow-error/10";
 
   return (
     <>
@@ -43,19 +48,30 @@ export default function SayLessSuccess({
         transition={{ type: "spring", duration: 0.5 }}
         className="fixed inset-0 z-50 flex items-center justify-center p-6 pointer-events-none"
       >
-        <div className="glass-card border border-success/30 rounded-2xl p-6 w-full max-w-xs flex flex-col items-center text-center gap-4 pointer-events-auto shadow-2xl shadow-success/10">
-          {/* Congrats header */}
+        <div className={`glass-card border ${borderColor} rounded-2xl p-6 w-full max-w-xs flex flex-col items-center text-center gap-4 pointer-events-auto shadow-2xl ${shadowColor}`}>
+          {/* Header */}
           <motion.div
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.15 }}
             className="flex items-center gap-2"
           >
-            <PartyPopper size={22} className="text-accent" />
-            <h3 className="font-display text-2xl font-bold text-success">
-              Correct!
-            </h3>
-            <PartyPopper size={22} className="text-accent" />
+            {won ? (
+              <>
+                <PartyPopper size={22} className="text-accent" />
+                <h3 className="font-display text-2xl font-bold text-success">
+                  Correct!
+                </h3>
+                <PartyPopper size={22} className="text-accent" />
+              </>
+            ) : (
+              <>
+                <XCircle size={22} className="text-error" />
+                <h3 className="font-display text-2xl font-bold text-error">
+                  The answer was...
+                </h3>
+              </>
+            )}
           </motion.div>
 
           {/* Movie poster */}
