@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 /*  Stage 0 (start): heavily blurred, face unrecognisable              */
 /*  Each wrong guess sharpens the image                                */
 /* ------------------------------------------------------------------ */
-const BLUR_LEVELS = [28, 19, 10];
+const BLUR_LEVELS = [20, 12, 5];
 
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */
