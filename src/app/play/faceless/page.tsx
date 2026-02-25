@@ -133,7 +133,7 @@ function getDailyCelebs(
   celebs: FacelessCelebrity[],
   date: string
 ): DailyCeleb[] {
-  const rng = createRng(hashDate(date));
+  const rng = createRng(hashDate(date + "-v2"));
   const shuffled = [...celebs].sort(() => rng() - 0.5);
   return shuffled.slice(0, CELEBS_PER_DAY).map((celeb) => ({
     celeb,

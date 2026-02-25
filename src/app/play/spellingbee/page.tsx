@@ -29,9 +29,10 @@ interface SpellingSet {
 const WORDS_PER_GAME = 5;
 
 function getDailySet(sets: SpellingSet[], date: string): SpellingWord[] {
+  const key = date + "-v2";
   let hash = 0;
-  for (let i = 0; i < date.length; i++) {
-    hash = ((hash << 5) - hash) + date.charCodeAt(i);
+  for (let i = 0; i < key.length; i++) {
+    hash = ((hash << 5) - hash) + key.charCodeAt(i);
     hash |= 0;
   }
   const set = sets[Math.abs(hash) % sets.length];
