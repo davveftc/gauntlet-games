@@ -3,25 +3,23 @@ import { motion } from "framer-motion";
 import { Film, PartyPopper, XCircle } from "lucide-react";
 import Button from "@/components/shared/Button";
 
-interface SayLessSuccessProps {
+interface SayLessRevealProps {
   movie: string;
   year: number;
   genre: string;
-  quote: string;
   posterUrl: string | null;
   won: boolean;
   onContinue: () => void;
 }
 
-export default function SayLessSuccess({
+export default function SayLessReveal({
   movie,
   year,
   genre,
-  quote,
   posterUrl,
   won,
   onContinue,
-}: SayLessSuccessProps) {
+}: SayLessRevealProps) {
   const handleContinue = () => {
     onContinue();
   };
@@ -92,7 +90,6 @@ export default function SayLessSuccess({
                 <Film size={48} className="text-muted" />
               </div>
             )}
-
           </motion.div>
 
           {/* Movie info */}
@@ -105,21 +102,11 @@ export default function SayLessSuccess({
             <p className="text-muted text-sm">{year} &middot; {genre}</p>
           </motion.div>
 
-          {/* Full quote */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.45 }}
-            className="text-muted text-xs italic leading-relaxed"
-          >
-            &ldquo;{quote}&rdquo;
-          </motion.p>
-
           {/* Continue button */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.5 }}
             className="w-full"
           >
             <Button
