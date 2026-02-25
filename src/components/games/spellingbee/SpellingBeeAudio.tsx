@@ -24,16 +24,41 @@ export default function SpellingBeeAudio({ word, audioUrl }: SpellingBeeAudioPro
     }
   }, [word]);
 
-  const playWithWebSpeech = useCallback(() => {
+  // Ensure Web Speech voices are loaded
+  useEffect(() => {
     if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(word);
-      utterance.rate = 0.8;
-      utterance.onstart = () => setIsPlaying(true);
-      utterance.onend = () => setIsPlaying(false);
-      utterance.onerror = () => setIsPlaying(false);
-      speechSynthesis.cancel();
-      speechSynthesis.speak(utterance);
+      speechSynthesis.getVoices();
+      speechSynthesis.addEventListener?.("voiceschanged", () => {
+        speechSynthesis.getVoices();
+      });
     }
+  }, []);
+
+  const playWithWebSpeech = useCallback(() => {
+    if (!("speechSynthesis" in window)) return;
+
+    speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.rate = 0.8;
+    utterance.lang = "en-US";
+
+    // Prefer an English voice if available
+    const voices = speechSynthesis.getVoices();
+    const enVoice = voices.find((v) => v.lang.startsWith("en"));
+    if (enVoice) utterance.voice = enVoice;
+
+    utterance.onstart = () => {
+      setIsPlaying(true);
+      setIsLoading(false);
+    };
+    utterance.onend = () => setIsPlaying(false);
+    utterance.onerror = () => {
+      setIsPlaying(false);
+      setIsLoading(false);
+    };
+
+    speechSynthesis.speak(utterance);
   }, [word]);
 
   const playWithHowl = useCallback((src: string) => {
@@ -43,6 +68,10 @@ export default function SpellingBeeAudio({ word, audioUrl }: SpellingBeeAudioPro
     const sound = new Howl({
       src: [src],
       html5: true,
+      preload: true,
+      onload: () => {
+        sound.play();
+      },
       onplay: () => {
         setIsPlaying(true);
         setIsLoading(false);
@@ -58,19 +87,18 @@ export default function SpellingBeeAudio({ word, audioUrl }: SpellingBeeAudioPro
       },
     });
     howlRef.current = sound;
-    sound.play();
   }, [playWithWebSpeech]);
 
   const fetchDictionaryAudio = useCallback(async (): Promise<string | null> => {
     try {
       const res = await fetch(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`
       );
       if (!res.ok) return null;
       const data = await res.json();
       for (const entry of data) {
         for (const phonetic of entry.phonetics ?? []) {
-          if (phonetic.audio) return phonetic.audio;
+          if (phonetic.audio && phonetic.audio.length > 0) return phonetic.audio;
         }
       }
     } catch {
@@ -105,7 +133,6 @@ export default function SpellingBeeAudio({ word, audioUrl }: SpellingBeeAudioPro
     }
 
     // Last resort: Web Speech API
-    setIsLoading(false);
     playWithWebSpeech();
   };
 
