@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, X as XIcon } from "lucide-react";
 import SayLessPlayer from "@/components/games/sayless/SayLessPlayer";
-import SayLessSuccess from "@/components/games/sayless/SayLessSuccess";
+import SayLessReveal from "@/components/games/sayless/SayLessReveal";
 import SayLessSearch from "@/components/games/sayless/SayLessSearch";
 import SayLessGuessRow from "@/components/games/sayless/SayLessGuessRow";
 import SayLessBonusRound from "@/components/games/sayless/SayLessBonusRound";
@@ -106,7 +106,7 @@ export default function SayLessPage() {
   const [roundStates, setRoundStates] = useState<RoundState[]>(createInitialRoundStates);
   const [gameOver, setGameOver] = useState(false);
   const [pendingMovie, setPendingMovie] = useState<MovieQuote | null>(null);
-  const [successRound, setSuccessRound] = useState<number | null>(null);
+  const [revealRound, setRevealRound] = useState<number | null>(null);
   const [bonusPhase, setBonusPhase] = useState(false);
   const [bonusScore, setBonusScore] = useState(0);
 
@@ -182,8 +182,8 @@ export default function SayLessPage() {
     }
   }, [roundStates, gameOver, bonusPhase, completeGame, isSpecialMode]);
 
-  const handleSuccessContinue = () => {
-    setSuccessRound(null);
+  const handleRevealContinue = () => {
+    setRevealRound(null);
     const nextIdx = roundStates.findIndex((r, i) => !r.completed && i !== activeTab);
     if (nextIdx !== -1) {
       setActiveTab(nextIdx);
@@ -208,7 +208,7 @@ export default function SayLessPage() {
       const next = [...prev];
       next[activeTab] = { guesses: newGuesses, completed: done, won: isCorrect };
       if (done) {
-        setSuccessRound(activeTab);
+        setRevealRound(activeTab);
       }
       return next;
     });
@@ -223,7 +223,7 @@ export default function SayLessPage() {
     setRoundStates((prev) => {
       const next = [...prev];
       next[activeTab] = { guesses: newGuesses, completed: done, won: false };
-      if (done) setSuccessRound(activeTab);
+      if (done) setRevealRound(activeTab);
       return next;
     });
   };
@@ -303,17 +303,16 @@ export default function SayLessPage() {
             })}
           </div>
 
-          {/* ---- Success popup overlay ---- */}
+          {/* ---- Reveal popup overlay ---- */}
           <AnimatePresence>
-            {successRound !== null && (
-              <SayLessSuccess
-                movie={rounds[successRound].movie.movie}
-                year={rounds[successRound].movie.year}
-                genre={rounds[successRound].movie.genre}
-                quote={rounds[successRound].movie.quote}
-                posterUrl={posterUrls[successRound]}
-                won={roundStates[successRound].won}
-                onContinue={handleSuccessContinue}
+            {revealRound !== null && (
+              <SayLessReveal
+                movie={rounds[revealRound].movie.movie}
+                year={rounds[revealRound].movie.year}
+                genre={rounds[revealRound].movie.genre}
+                posterUrl={posterUrls[revealRound]}
+                won={roundStates[revealRound].won}
+                onContinue={handleRevealContinue}
               />
             )}
           </AnimatePresence>
@@ -358,17 +357,6 @@ export default function SayLessPage() {
                   })}
                 </div>
 
-                {/* answer reveal inside frame */}
-                {currentState.completed && (
-                  <div
-                    className={`mt-2 pt-2 border-t text-center text-sm ${
-                      currentState.won ? "border-success/20" : "border-error/20"
-                    }`}
-                  >
-                    <span className="font-bold">{currentRound.movie.movie}</span>
-                    <span className="text-muted"> ({currentRound.movie.year})</span>
-                  </div>
-                )}
               </div>
 
               {/* ---- Player ---- */}
