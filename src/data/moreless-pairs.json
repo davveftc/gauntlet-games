@@ -79,6 +79,46 @@
     "itemA": { "name": "Reddit", "value": 27100000, "category": "Google Searches", "unit": "searches" },
     "itemB": { "name": "Wikipedia", "value": 30400000, "category": "Google Searches", "unit": "searches" }
   },
+  {
+    "itemA": { "name": "Google", "value": 101000000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Bing", "value": 13600000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "Starbucks", "value": 25000000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Dunkin", "value": 12100000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "Costco", "value": 18100000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Target", "value": 30400000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "Airbnb", "value": 11100000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Hotels.com", "value": 6100000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "HBO", "value": 9100000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Hulu", "value": 12100000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "Twitch", "value": 9900000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Kick", "value": 2400000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "LinkedIn", "value": 45500000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Indeed", "value": 30400000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "Zara", "value": 13600000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "H&M", "value": 16600000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "Lego", "value": 8100000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Hot Wheels", "value": 3600000, "category": "Google Searches", "unit": "searches" }
+  },
+  {
+    "itemA": { "name": "DoorDash", "value": 11100000, "category": "Google Searches", "unit": "searches" },
+    "itemB": { "name": "Grubhub", "value": 4400000, "category": "Google Searches", "unit": "searches" }
+  },
 
   {
     "itemA": { "name": "The Weeknd", "value": 105000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
@@ -160,6 +200,46 @@
     "itemA": { "name": "BTS", "value": 40000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
     "itemB": { "name": "BLACKPINK", "value": 35000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
   },
+  {
+    "itemA": { "name": "Juice WRLD", "value": 42000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "XXXTENTACION", "value": 30000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "Tyler the Creator", "value": 38000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Frank Ocean", "value": 28000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "Maroon 5", "value": 55000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "OneRepublic", "value": 38000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "Lana Del Rey", "value": 45000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Mitski", "value": 18000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "J Balvin", "value": 48000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Daddy Yankee", "value": 36000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "Jack Harlow", "value": 30000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Lil Uzi Vert", "value": 34000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "Celine Dion", "value": 32000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Andrea Bocelli", "value": 18000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "Foo Fighters", "value": 28000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Green Day", "value": 32000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "Lizzo", "value": 26000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Megan Thee Stallion", "value": 22000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
+  {
+    "itemA": { "name": "Benson Boone", "value": 52000000, "category": "Monthly Listeners", "unit": "monthly listeners" },
+    "itemB": { "name": "Noah Kahan", "value": 40000000, "category": "Monthly Listeners", "unit": "monthly listeners" }
+  },
 
   {
     "itemA": { "name": "The Shawshank Redemption", "value": 9.3, "category": "Movie Ratings", "unit": "IMDb" },
@@ -240,5 +320,45 @@
   {
     "itemA": { "name": "The Truman Show", "value": 8.2, "category": "Movie Ratings", "unit": "IMDb" },
     "itemB": { "name": "Eternal Sunshine", "value": 8.3, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "Back to the Future", "value": 8.5, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "Raiders of the Lost Ark", "value": 8.4, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "The Social Network", "value": 7.8, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "Moneyball", "value": 7.6, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "No Country for Old Men", "value": 8.2, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "There Will Be Blood", "value": 8.2, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "La La Land", "value": 8.0, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "The Artist", "value": 7.9, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "Rear Window", "value": 8.5, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "Vertigo", "value": 8.3, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "12 Angry Men", "value": 9.0, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "To Kill a Mockingbird", "value": 8.3, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "The Pianist", "value": 8.5, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "Life is Beautiful", "value": 8.6, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "Get Out", "value": 7.7, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "Us", "value": 6.8, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "Oppenheimer", "value": 8.3, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "Dunkirk", "value": 7.8, "category": "Movie Ratings", "unit": "IMDb" }
+  },
+  {
+    "itemA": { "name": "Inside Out", "value": 8.1, "category": "Movie Ratings", "unit": "IMDb" },
+    "itemB": { "name": "Coco", "value": 8.4, "category": "Movie Ratings", "unit": "IMDb" }
   }
 ]
