@@ -18,6 +18,7 @@ import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
 import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { MovieQuote } from "@/types";
+import { pickDaily } from "@/lib/dailyCycle";
 import MOVIES from "@/data/sayless-movies.json";
 
 const MAX_GUESSES = 3;
@@ -36,31 +37,11 @@ interface RoundState {
   won: boolean;
 }
 
-// ---------- seeded RNG ----------
-function createRng(seed: number) {
-  let s = Math.abs(seed) | 1;
-  return () => {
-    s = (s * 1664525 + 1013904223) & 0x7fffffff;
-    return s / 0x7fffffff;
-  };
-}
-
-function hashDate(date: string): number {
-  let h = 0;
-  for (let i = 0; i < date.length; i++) {
-    h = ((h << 5) - h) + date.charCodeAt(i);
-    h |= 0;
-  }
-  return Math.abs(h);
-}
-
 // ---------- fixed genre categories ----------
 const GENRE_CATEGORIES = ["Action", "Comedy", "Thriller"] as const;
 
 // ---------- daily round generation ----------
 function getDailyRounds(movies: MovieQuote[], date: string): Round[] {
-  const rng = createRng(hashDate(date + "-v2"));
-
   const genreMap = new Map<string, MovieQuote[]>();
   for (const movie of movies) {
     const list = genreMap.get(movie.genre) || [];
@@ -68,18 +49,14 @@ function getDailyRounds(movies: MovieQuote[], date: string): Round[] {
     genreMap.set(movie.genre, list);
   }
 
-  const usedIds = new Set<string>();
-
   const genrePicks: Round[] = GENRE_CATEGORIES.map((genre) => {
-    const pool = [...(genreMap.get(genre) || [])].sort(() => rng() - 0.5);
-    const pick = pool[0];
-    usedIds.add(pick.id);
+    const pool = genreMap.get(genre) || [];
+    const pick = pickDaily(pool, date, `sayless-${genre}`);
     return { category: genre, movie: pick };
   });
 
-  // "Drama" pick for the "All" round
-  const dramaPool = [...(genreMap.get("Drama") || [])].sort(() => rng() - 0.5);
-  const dramaPick = dramaPool.find((m) => !usedIds.has(m.id)) || dramaPool[0];
+  const dramaPool = genreMap.get("Drama") || [];
+  const dramaPick = pickDaily(dramaPool, date, "sayless-Drama");
 
   return [{ category: "All", movie: dramaPick }, ...genrePicks];
 }

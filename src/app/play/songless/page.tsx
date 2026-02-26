@@ -17,6 +17,7 @@ import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
 import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { Song } from "@/types";
+import { pickDaily } from "@/lib/dailyCycle";
 import SONGS from "@/data/songless-songs.json";
 
 const MAX_GUESSES = 6;
@@ -35,31 +36,11 @@ interface RoundState {
   won: boolean;
 }
 
-// ---------- seeded RNG ----------
-function createRng(seed: number) {
-  let s = Math.abs(seed) | 1;
-  return () => {
-    s = (s * 1664525 + 1013904223) & 0x7fffffff;
-    return s / 0x7fffffff;
-  };
-}
-
-function hashDate(date: string): number {
-  let h = 0;
-  for (let i = 0; i < date.length; i++) {
-    h = ((h << 5) - h) + date.charCodeAt(i);
-    h |= 0;
-  }
-  return Math.abs(h);
-}
-
 // ---------- fixed genre categories ----------
 const GENRE_CATEGORIES = ["Hip-Hop", "Pop", "Rock"] as const;
 
 // ---------- daily round generation ----------
 function getDailyRounds(songs: Song[], date: string): Round[] {
-  const rng = createRng(hashDate(date + "-v2"));
-
   const genreMap = new Map<string, Song[]>();
   for (const song of songs) {
     const list = genreMap.get(song.genre) || [];
@@ -67,17 +48,13 @@ function getDailyRounds(songs: Song[], date: string): Round[] {
     genreMap.set(song.genre, list);
   }
 
-  const usedIds = new Set<string>();
-
   const genrePicks: Round[] = GENRE_CATEGORIES.map((genre) => {
-    const pool = [...(genreMap.get(genre) || [])].sort(() => rng() - 0.5);
-    const pick = pool[0];
-    usedIds.add(pick.id);
+    const pool = genreMap.get(genre) || [];
+    const pick = pickDaily(pool, date, `songless-${genre}`);
     return { category: genre, song: pick };
   });
 
-  const allPool = [...songs].sort(() => rng() - 0.5);
-  const allPick = allPool.find((s) => !usedIds.has(s.id))!;
+  const allPick = pickDaily(songs, date, "songless-All");
 
   return [{ category: "All", song: allPick }, ...genrePicks];
 }

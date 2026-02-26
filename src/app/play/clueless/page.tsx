@@ -14,6 +14,7 @@ import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
 import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { CluelessGuess } from "@/types";
+import { pickDaily } from "@/lib/dailyCycle";
 import CLUELESS_DATA from "@/data/clueless-words.json";
 
 interface CluelessWord {
@@ -22,13 +23,7 @@ interface CluelessWord {
 }
 
 function getDailyWord(words: CluelessWord[], date: string): CluelessWord {
-  const key = date + "-v2";
-  let hash = 0;
-  for (let i = 0; i < key.length; i++) {
-    hash = ((hash << 5) - hash) + key.charCodeAt(i);
-    hash |= 0;
-  }
-  return words[Math.abs(hash) % words.length];
+  return pickDaily(words, date, "clueless");
 }
 
 function getSimilarity(guess: string, dailyWord: CluelessWord): number {

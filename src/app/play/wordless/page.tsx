@@ -14,19 +14,14 @@ import { useGauntletContext } from "@/context/GauntletContext";
 import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import { generateWordlessShareText } from "@/lib/utils";
 import type { WordlessTileData, TileState } from "@/types";
+import { pickDaily } from "@/lib/dailyCycle";
 import WORDS from "@/data/wordless-words.json";
 
 const MAX_GUESSES = 6;
 const WORD_LENGTH = 5;
 
 function getDailyWord(words: string[], date: string): string {
-  const key = date + "-v2";
-  let hash = 0;
-  for (let i = 0; i < key.length; i++) {
-    hash = ((hash << 5) - hash) + key.charCodeAt(i);
-    hash |= 0;
-  }
-  return words[Math.abs(hash) % words.length].toUpperCase();
+  return pickDaily(words, date, "wordless").toUpperCase();
 }
 
 function evaluateGuess(guess: string, target: string): TileState[] {

@@ -13,6 +13,7 @@ import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
 import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { MoreLessPair, MoreLessItem } from "@/types";
+import { pickDailyN } from "@/lib/dailyCycle";
 import PAIRS_DATA from "@/data/moreless-pairs.json";
 
 /* ------------------------------------------------------------------ */
@@ -49,26 +50,6 @@ interface TabState {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Seeded RNG                                                         */
-/* ------------------------------------------------------------------ */
-function createRng(seed: number) {
-  let s = Math.abs(seed) | 1;
-  return () => {
-    s = (s * 1664525 + 1013904223) & 0x7fffffff;
-    return s / 0x7fffffff;
-  };
-}
-
-function hashDate(date: string): number {
-  let h = 0;
-  for (let i = 0; i < date.length; i++) {
-    h = ((h << 5) - h) + date.charCodeAt(i);
-    h |= 0;
-  }
-  return Math.abs(h);
-}
-
-/* ------------------------------------------------------------------ */
 /*  Flatten pairs → items, then pick daily chain                       */
 /* ------------------------------------------------------------------ */
 function extractItems(
@@ -93,13 +74,11 @@ function getDailyItems(
   allPairs: MoreLessPair[],
   date: string
 ): Record<string, MoreLessItem[]> {
-  const rng = createRng(hashDate(date + "-v2"));
   const result: Record<string, MoreLessItem[]> = {};
 
   for (const cat of CATEGORIES) {
     const pool = extractItems(allPairs, cat);
-    const shuffled = [...pool].sort(() => rng() - 0.5);
-    result[cat] = shuffled.slice(0, ITEMS_PER_TAB);
+    result[cat] = pickDailyN(pool, date, ITEMS_PER_TAB, `moreless-${cat}`);
   }
 
   return result;
