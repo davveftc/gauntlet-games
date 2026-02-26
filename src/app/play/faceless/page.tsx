@@ -15,6 +15,7 @@ import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
 import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
 import type { FacelessCelebrity } from "@/types";
+import { pickDailyN, getDailyCycleRng } from "@/lib/dailyCycle";
 import CELEBS_DATA from "@/data/faceless-celebrities.json";
 
 /* ------------------------------------------------------------------ */
@@ -24,26 +25,6 @@ const CELEBS_PER_DAY = 6;
 const MAX_ATTEMPTS = 3;
 const MAX_SCORE = CELEBS_PER_DAY * MAX_ATTEMPTS; // 18
 const POINTS_BY_ATTEMPT = [3, 2, 1];
-
-/* ------------------------------------------------------------------ */
-/*  Seeded RNG                                                         */
-/* ------------------------------------------------------------------ */
-function createRng(seed: number) {
-  let s = Math.abs(seed) | 1;
-  return () => {
-    s = (s * 1664525 + 1013904223) & 0x7fffffff;
-    return s / 0x7fffffff;
-  };
-}
-
-function hashDate(date: string): number {
-  let h = 0;
-  for (let i = 0; i < date.length; i++) {
-    h = ((h << 5) - h) + date.charCodeAt(i);
-    h |= 0;
-  }
-  return Math.abs(h);
-}
 
 /* ------------------------------------------------------------------ */
 /*  Wikipedia image fetching (high-res for zoom)                       */
@@ -133,9 +114,9 @@ function getDailyCelebs(
   celebs: FacelessCelebrity[],
   date: string
 ): DailyCeleb[] {
-  const rng = createRng(hashDate(date + "-v2"));
-  const shuffled = [...celebs].sort(() => rng() - 0.5);
-  return shuffled.slice(0, CELEBS_PER_DAY).map((celeb) => ({
+  const picks = pickDailyN(celebs, date, CELEBS_PER_DAY, "faceless");
+  const rng = getDailyCycleRng(celebs.length, date, "faceless-focal");
+  return picks.map((celeb) => ({
     celeb,
     focalPoint: {
       x: 40 + rng() * 20, // 40-60% — center horizontal (face area)

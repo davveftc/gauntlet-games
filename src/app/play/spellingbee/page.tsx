@@ -13,6 +13,7 @@ import { useAlreadyPlayed } from "@/hooks/useAlreadyPlayed";
 import { useGauntletContext } from "@/context/GauntletContext";
 import { useChainContext } from "@/context/ChainContext";
 import AlreadyPlayed from "@/components/shared/AlreadyPlayed";
+import { pickDaily } from "@/lib/dailyCycle";
 import SPELLING_DATA from "@/data/spellingbee-words.json";
 
 interface SpellingWord {
@@ -29,13 +30,7 @@ interface SpellingSet {
 const WORDS_PER_GAME = 5;
 
 function getDailySet(sets: SpellingSet[], date: string): SpellingWord[] {
-  const key = date + "-v2";
-  let hash = 0;
-  for (let i = 0; i < key.length; i++) {
-    hash = ((hash << 5) - hash) + key.charCodeAt(i);
-    hash |= 0;
-  }
-  const set = sets[Math.abs(hash) % sets.length];
+  const set = pickDaily(sets, date, "spellingbee");
   return set.words.slice(0, WORDS_PER_GAME);
 }
 
