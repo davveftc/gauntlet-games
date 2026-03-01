@@ -215,7 +215,7 @@ export default function SayLessPage() {
 
   const shareText = `\u{1F3AC} GAUNTLET \u2014 Say Less\nMovies: ${totalCorrect}/${TOTAL_ROUNDS} | Actors: ${bonusScore}/${TOTAL_ROUNDS}\n${roundStates
     .map((r) => (r.completed ? (r.won ? "\u2705" : "\u274C") : "\u2B1C"))
-    .join("")}\n\nPlay at https://gauntlet.gg`;
+    .join("")}\n\nPlay at https://gauntlet-games.vercel.app/`;
 
   const tabLabels = useMemo(() => {
     return rounds.map((r) => r.category);

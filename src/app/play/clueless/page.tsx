@@ -105,7 +105,7 @@ export default function CluelessPage() {
     }
   }, [gameOver, guesses, dailyWord, completeGame, showError]);
 
-  const shareText = `\u{1F50D} GAUNTLET \u2014 Clueless\n${won ? `Found it in ${guesses.length} guesses!` : "Still searching..."}\n\nPlay at https://gauntlet.gg`;
+  const shareText = `\u{1F50D} GAUNTLET \u2014 Clueless\n${won ? `Found it in ${guesses.length} guesses!` : "Still searching..."}\n\nPlay at https://gauntlet-games.vercel.app/`;
 
   if (alreadyPlayedLoading) {
     return <div className="pt-6 pb-4"><GameNav title="Clueless" /><div className="text-center py-12 text-muted">Loading...</div></div>;

@@ -92,7 +92,7 @@ export default function SpellingBeePage() {
     ? Array.from({ length: 5 }, (_, i) => (i < currentWord.difficulty ? "\u2605" : "\u2606")).join("")
     : "";
 
-  const shareText = `\u{1F41D} GAUNTLET \u2014 Spelling Bee\nScore: ${score}/${WORDS_PER_GAME}\n${results.map((r) => (r === "correct" ? "\u2705" : "\u274C")).join("")}\n\nPlay at https://gauntlet.gg`;
+  const shareText = `\u{1F41D} GAUNTLET \u2014 Spelling Bee\nScore: ${score}/${WORDS_PER_GAME}\n${results.map((r) => (r === "correct" ? "\u2705" : "\u274C")).join("")}\n\nPlay at https://gauntlet-games.vercel.app/`;
 
   if (alreadyPlayedLoading) {
     return <div className="pt-6 pb-4"><GameNav title="Spelling Bee" /><div className="text-center py-12 text-muted">Loading...</div></div>;
