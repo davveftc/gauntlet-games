@@ -23,7 +23,7 @@ export function generateWordlessShareText(
     )
     .join("\n");
 
-  return `\u{1F7EA} GAUNTLET \u2014 Wordless #${puzzleNumber}\n${won ? guesses.length : "X"}/${maxGuesses}\n\n${grid}\n\nPlay at gauntlet.gg`;
+  return `\u{1F7EA} GAUNTLET \u2014 Wordless #${puzzleNumber}\n${won ? guesses.length : "X"}/${maxGuesses}\n\n${grid}\n\nPlay at https://gauntlet.gg`;
 }
 
 export function generateGauntletShareText(
@@ -38,7 +38,7 @@ export function generateGauntletShareText(
   ).join("");
 
   const pointsStr = survived ? ` | ${totalPoints} pts (${total}× multiplier)` : "";
-  return `${swords} GAUNTLET \u2014 ${survived ? "SURVIVED" : "ELIMINATED"}\n${bars}\n${completedCount}/${total} games cleared${pointsStr}\n\nPlay at gauntlet.gg`;
+  return `${swords} GAUNTLET \u2014 ${survived ? "SURVIVED" : "ELIMINATED"}\n${bars}\n${completedCount}/${total} games cleared${pointsStr}\n\nPlay at https://gauntlet.gg`;
 }
 
 export function generateChainShareText(
@@ -55,10 +55,10 @@ export function generateChainShareText(
   const completedCount = links.filter((l) => l.result === "win").length;
 
   if (survived) {
-    return `${icon} THE CHAIN \u2014 ALL LINKS HELD!\n${bars}\nTotal Score: ${totalScore} (4\u00D7 multiplier)\n\nPlay at gauntlet.gg`;
+    return `${icon} THE CHAIN \u2014 ALL LINKS HELD!\n${bars}\nTotal Score: ${totalScore} (4\u00D7 multiplier)\n\nPlay at https://gauntlet.gg`;
   }
 
-  return `${icon} THE CHAIN \u2014 BROKEN\n${bars}\nChain broke at link ${completedCount + 1}/${totalLinks}\n\nPlay at gauntlet.gg`;
+  return `${icon} THE CHAIN \u2014 BROKEN\n${bars}\nChain broke at link ${completedCount + 1}/${totalLinks}\n\nPlay at https://gauntlet.gg`;
 }
 
 export async function copyToClipboard(text: string): Promise<boolean> {

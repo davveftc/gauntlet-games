@@ -249,7 +249,7 @@ export default function SonglessPage() {
 
   const shareText = `\u{1F3B5} GAUNTLET \u2014 Songless\nScore: ${totalCorrect}/${TOTAL_ROUNDS}\n${roundStates
     .map((r) => (r.completed ? (r.won ? "\u2705" : "\u274C") : "\u2B1C"))
-    .join("")}\n\nPlay at gauntlet.gg`;
+    .join("")}\n\nPlay at https://gauntlet.gg`;
 
   const tabLabels = useMemo(() => {
     let allCount = 0;
