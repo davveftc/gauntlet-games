@@ -240,7 +240,7 @@ export default function MoreLessPage() {
   /* ---- share text ---- */
   const shareText = `\u{1F4CA} GAUNTLET \u2014 More/Less\nScore: ${totalCorrect}/${MAX_SCORE}\n${CATEGORIES.map(
     (cat, i) => `${cat}: ${tabStates[i].score}/${ROUNDS_PER_TAB}`
-  ).join("\n")}\n\nPlay at gauntlet.gg`;
+  ).join("\n")}\n\nPlay at https://gauntlet-games.vercel.app/`;
 
   /* ================================================================ */
   if (alreadyPlayedLoading) {

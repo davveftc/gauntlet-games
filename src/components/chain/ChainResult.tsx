@@ -86,6 +86,9 @@ export default function ChainResult({ chain, currentUid }: ChainResultProps) {
               4x multiplier applied
             </p>
           </motion.div>
+          <div className="mt-4">
+            <CountdownTimer />
+          </div>
         </div>
       ) : (
         <div className="mb-6">

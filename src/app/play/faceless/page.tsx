@@ -316,7 +316,7 @@ export default function FacelessPage() {
           : "\u{1F7E7}";
       return "\u{1F7E5}";
     })
-    .join("")}\n\nPlay at gauntlet.gg`;
+    .join("")}\n\nPlay at https://gauntlet-games.vercel.app/`;
 
   /* ================================================================ */
   if (alreadyPlayedLoading) {

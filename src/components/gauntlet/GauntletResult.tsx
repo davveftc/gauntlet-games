@@ -85,6 +85,9 @@ export default function GauntletResult({
               {multiplier}× multiplier applied
             </p>
           </motion.div>
+          <div className="mt-4">
+            <CountdownTimer />
+          </div>
         </div>
       ) : (
         <div className="mb-6">
