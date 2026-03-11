@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import GauntletProgress from "@/components/gauntlet/GauntletProgress";
 import GauntletRunner from "@/components/gauntlet/GauntletRunner";
@@ -7,6 +7,10 @@ import GauntletResult from "@/components/gauntlet/GauntletResult";
 import AuthGuard from "@/components/auth/AuthGuard";
 import GameNav from "@/components/layout/GameNav";
 import Button from "@/components/shared/Button";
+import CountdownTimer from "@/components/shared/CountdownTimer";
+import { useAuthStore } from "@/stores/authStore";
+import { saveGauntletResult, getGauntletResultToday, addXP, updateStreak } from "@/lib/db";
+import { XP_REWARDS } from "@/types";
 import type { GameId } from "@/types";
 
 /* ------------------------------------------------------------------ */
@@ -27,6 +31,28 @@ const MIN_GAMES = 3;
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 export default function GauntletPage() {
+  const { user, isGuest } = useAuthStore();
+
+  /* ---- already-played lockout ---- */
+  const [alreadyPlayed, setAlreadyPlayed] = useState<{
+    result: "win" | "loss";
+    score: number;
+    gamesCompleted: string[];
+  } | null>(null);
+  const [lockoutLoading, setLockoutLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user || isGuest) {
+      setLockoutLoading(false);
+      return;
+    }
+    getGauntletResultToday(user.uid)
+      .then((res) => {
+        if (res) setAlreadyPlayed(res);
+      })
+      .finally(() => setLockoutLoading(false));
+  }, [user, isGuest]);
+
   /* ---- selection state ---- */
   const [selectedGames, setSelectedGames] = useState<Set<GameId>>(new Set());
   const [started, setStarted] = useState(false);
@@ -56,19 +82,42 @@ export default function GauntletPage() {
     });
   };
 
+  const saveGauntlet = useCallback(
+    async (survived: boolean, finalScores: Record<string, number>, order: GameId[], finalResults: Record<string, "win" | "loss">) => {
+      if (!user || isGuest) return;
+      const rawTotal = Object.values(finalScores).reduce((sum, s) => sum + s, 0);
+      const total = survived ? rawTotal * order.length : 0;
+      const gamesCompleted = order.filter((g) => finalResults[g] === "win");
+
+      await saveGauntletResult(user.uid, survived ? "win" : "loss", total, gamesCompleted);
+
+      if (survived) {
+        await addXP(user.uid, XP_REWARDS.SURVIVE_GAUNTLET);
+      } else {
+        await addXP(user.uid, XP_REWARDS.COMPLETE_GAUNTLET);
+      }
+      await updateStreak(user.uid, "gauntlet");
+    },
+    [user, isGuest]
+  );
+
   const handleGameComplete = (
     gameId: GameId,
     result: "win" | "loss",
     score?: number
   ) => {
-    setResults((prev) => ({ ...prev, [gameId]: result }));
-    setScores((prev) => ({ ...prev, [gameId]: score ?? 0 }));
+    const newResults = { ...results, [gameId]: result };
+    const newScores = { ...scores, [gameId]: score ?? 0 };
+    setResults(newResults);
+    setScores(newScores);
 
     if (result === "loss") {
       setEliminated(true);
       setCompleted(true);
+      saveGauntlet(false, newScores, gameOrder, newResults);
     } else if (currentGameIndex >= gameOrder.length - 1) {
       setCompleted(true);
+      saveGauntlet(true, newScores, gameOrder, newResults);
     } else {
       setCurrentGameIndex((i) => i + 1);
     }
@@ -79,6 +128,51 @@ export default function GauntletPage() {
   const totalPoints = eliminated ? 0 : rawTotal * multiplier;
 
   /* ================================================================ */
+  if (lockoutLoading) {
+    return (
+      <AuthGuard requireAuth>
+        <GameNav />
+        <div className="min-h-[80vh] flex items-center justify-center">
+          <div className="animate-pulse text-primary-light font-display text-xl">Loading...</div>
+        </div>
+      </AuthGuard>
+    );
+  }
+
+  if (alreadyPlayed) {
+    const survived = alreadyPlayed.result === "win";
+    return (
+      <AuthGuard requireAuth>
+        <GameNav />
+        <div className="pt-6 flex flex-col items-center justify-center min-h-[80vh] text-center">
+          <h1 className="font-display text-4xl font-bold neon-text-pink mb-6">
+            THE GAUNTLET
+          </h1>
+          <div className="glass-card p-6 w-full max-w-sm space-y-4">
+            <h3 className="font-display text-2xl font-bold">
+              {survived ? (
+                <span className="text-success">You survived today!</span>
+              ) : (
+                <span className="text-error">Eliminated today</span>
+              )}
+            </h3>
+            {alreadyPlayed.score > 0 && (
+              <p className="text-muted text-sm">
+                Score: <span className="text-accent font-bold">{alreadyPlayed.score}</span>
+              </p>
+            )}
+            <p className="text-muted text-sm">
+              Come back tomorrow for another run.
+            </p>
+            <div className="pt-2 border-t border-dim/15">
+              <CountdownTimer />
+            </div>
+          </div>
+        </div>
+      </AuthGuard>
+    );
+  }
+
   return (
     <AuthGuard requireAuth>
       <GameNav />

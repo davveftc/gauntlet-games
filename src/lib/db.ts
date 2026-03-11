@@ -170,6 +170,65 @@ export async function updateStreak(uid: string, gameId: GameId | "global" | "gau
     .eq("game_id", gameId);
 }
 
+// ---- GAUNTLET HISTORY ----
+export async function saveGauntletResult(
+  uid: string,
+  result: "win" | "loss",
+  score: number,
+  gamesCompleted: string[]
+) {
+  const date = todayStr();
+
+  const { data: existing } = await supabase
+    .from("game_history")
+    .select("id")
+    .eq("uid", uid)
+    .eq("game_id", "gauntlet")
+    .eq("date", date)
+    .single();
+
+  const payload = {
+    result,
+    guesses: gamesCompleted,
+    started_at: Date.now(),
+    completed_at: Date.now(),
+    score,
+  };
+
+  if (existing) {
+    await supabase
+      .from("game_history")
+      .update(payload)
+      .eq("id", existing.id);
+  } else {
+    await supabase.from("game_history").insert({
+      uid,
+      game_id: "gauntlet",
+      date,
+      ...payload,
+    });
+  }
+}
+
+export async function getGauntletResultToday(uid: string) {
+  const date = todayStr();
+
+  const { data } = await supabase
+    .from("game_history")
+    .select("*")
+    .eq("uid", uid)
+    .eq("game_id", "gauntlet")
+    .eq("date", date)
+    .single();
+
+  if (!data) return null;
+  return {
+    result: data.result as "win" | "loss",
+    score: data.score as number,
+    gamesCompleted: (data.guesses || []) as string[],
+  };
+}
+
 // ---- DAILY CONTENT ----
 export async function getDailyContent(date?: string) {
   const d = date || todayStr();
